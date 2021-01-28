@@ -13,6 +13,10 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.clauditter.ui.clases.Movie
+import com.squareup.moshi.JsonAdapter
+//Moshi
+import com.squareup.moshi.Moshi
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +42,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        val moshi: Moshi = Moshi.Builder().build()
+        val adapter: JsonAdapter<Movie> = moshi.adapter(Movie::class.java)
+        //TODO enviar el JSON para que moshi lo evalue
+       // val movie = adapter.fromJson(/*el json de las peliculas*/))
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
