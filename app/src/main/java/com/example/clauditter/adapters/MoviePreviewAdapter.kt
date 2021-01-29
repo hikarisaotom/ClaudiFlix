@@ -42,12 +42,13 @@ class MoviePreviewAdapter(private var movies:List<Movie>): RecyclerView.Adapter<
     /*se llama por el recyclerview cuando se quiere alamcenar nueva data en el viewholder */
     override fun onBindViewHolder(holder: MoviePreviewHolder, position: Int) {
         if(movies.isEmpty()){
-            holder.title.text="EMPTY LIST"
+            holder.title.text="NO LIST AVALIABLE AT THE MOMENT"
         }else{
-            //llamado por el layout manager cuando quiere nueva data en una vista existente.
-            //1)obtenemos el objeto a cargar
+
             val movieItem=movies[position]
             holder.title.text=movieItem.title
+
+
         }
 
     }
