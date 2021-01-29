@@ -2,7 +2,6 @@ package com.example.clauditter.adapters
 
 
 import android.content.Intent
-import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clauditter.Listeners.OnRecyclerClickListener
-import com.example.clauditter.Listeners.RecyclerPreviewListener
 import com.example.clauditter.MovieDetailsActivity
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.Movie
 
+const val MOVIE_TRANSFER="MOVIE_TRANSFER"
 
 class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
     val thumbnail: ImageView =view.findViewById(R.id.img_preview)
@@ -53,7 +52,6 @@ class MoviePreviewAdapter(private var movies:List<Movie>):
         if(movies.isEmpty()){
 
         }else{
-
             val movieItem=movies[position]
             Glide.with(holder.itemView)  //2
                 .load(movieItem.backdrop_path) //3
@@ -77,12 +75,12 @@ class MoviePreviewAdapter(private var movies:List<Movie>):
         if(movie!=null){
             Toast.makeText(view.context ,"Tap ${movie.title}", Toast.LENGTH_LONG).show()
             val intent= Intent(view.context, MovieDetailsActivity::class.java)
-            //intent.putExtra(PHOTO_TRANSFER,photo)
+            intent.putExtra(MOVIE_TRANSFER,movie)
             view.context.startActivity(intent)
         }
     }
 
     override fun onItemLongClick(view: View, position: Int) {
-        
+
     }
 }

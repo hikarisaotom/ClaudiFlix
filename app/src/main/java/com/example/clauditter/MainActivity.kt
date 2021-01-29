@@ -19,17 +19,13 @@ import com.google.android.material.navigation.NavigationView
 
 
 private const val TAG="MainActivity"
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
- /*   /**RECYCLERVIEW ADAPTERS*/
-    private val previewAdapter:MoviePreviewAdapter=MoviePreviewAdapter(ArrayList())
-*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        activateToolbar(true)
+       /* val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navView.setupWithNavController(navController)*/
 
     }//fin onCreate
 
