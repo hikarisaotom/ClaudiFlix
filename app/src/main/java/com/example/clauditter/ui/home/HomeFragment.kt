@@ -1,5 +1,6 @@
 package com.example.clauditter.ui.home
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.clauditter.R
 import com.example.clauditter.adapters.CategoriasHomeAdapter
-import com.example.clauditter.adapters.MoviePreviewAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
 import com.google.gson.Gson
@@ -112,6 +111,8 @@ class HomeFragment : Fragment() {
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)
             val movie=convertJSon(jsonObject.toString())
+            movie?.backdrop_path=String.format(getString(R.string.url_details_img),movie?.poster_path)
+            movie?.poster_path=String.format(getString(R.string.url_preview_img),movie?.backdrop_path)
             movieList.add(movie!!)
         }
         val newListCategory=MovieList(listToDomwload[index],movieList)

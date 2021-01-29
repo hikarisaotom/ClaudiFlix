@@ -10,6 +10,9 @@ import com.example.clauditter.R
 import com.example.clauditter.ui.clases.MovieList
 
 
+
+
+
 class MovieViewHolder(view: View): RecyclerView.ViewHolder(view){
     val titleList:TextView=view.findViewById(R.id.lbl_tituloLista)
     val recyclerMovies:RecyclerView=view.findViewById(R.id.recyclerListaHome)
@@ -37,15 +40,11 @@ class CategoriasHomeAdapter(private var ListOfLists:List<MovieList>):RecyclerVie
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         if(ListOfLists.isEmpty()){
-
         }else{
-
             val list=ListOfLists[position]
             holder.titleList.text=list.title
-
             /**RECYCLER ADAPTER */
             val previewAdapter:MoviePreviewAdapter=MoviePreviewAdapter(ArrayList())
-
            val  horizontalLayout = LinearLayoutManager(
                 null,
                 LinearLayoutManager.HORIZONTAL,

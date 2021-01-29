@@ -13,4 +13,9 @@
     <string name="api_key">7a30c243665f85825e8f7e6ae19711fa</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="url_preview_img">https://image.tmdb.org/t/p/original/%1$s</string>
+    <string name="url_details_img">https://image.tmdb.org/t/p/w500/%1$s</string>
+
 </resources>

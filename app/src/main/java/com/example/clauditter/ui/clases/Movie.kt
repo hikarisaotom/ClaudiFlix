@@ -3,14 +3,14 @@ import kotlin.collections.List
 
 data class Movie(
     val adult: Boolean,
-    val backdrop_path: String,
+    var backdrop_path: String,
     var genre_ids: List<Int> =listOf<Int>(),
     val id: Int,
     val original_language: String,
     val original_title: String,
     val overview: String,
     val popularity: Double,
-    val poster_path: String,
+    var poster_path: String,
     val release_date: String,
     val title: String,
     val video: Boolean,

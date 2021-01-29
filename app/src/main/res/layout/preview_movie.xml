@@ -14,10 +14,4 @@
         app:srcCompat="@mipmap/ic_launcher"
         tools:srcCompat="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/lblnamePreview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
 </LinearLayout>
