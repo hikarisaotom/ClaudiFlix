@@ -1,6 +1,4 @@
 package com.example.clauditter.ui.home
-
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,12 +33,12 @@ class HomeFragment : Fragment() {
     val sortOrders = arrayListOf<String>("popularity.desc","popularity.desc","vote_average.desc")
     var listMoviesFull=ArrayList<MovieList>()
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.lbl_home)
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
@@ -91,7 +89,7 @@ class HomeFragment : Fragment() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {//it is called when a failure happends
                 Log.d(TAG,"A failure has ocurred on the okHttp request")
-              //  e.printStackTrace()
+                //  e.printStackTrace()
             }
             override fun onResponse(call: Call, response: Response) {//it is called when we get any response from te app
                 response.use {

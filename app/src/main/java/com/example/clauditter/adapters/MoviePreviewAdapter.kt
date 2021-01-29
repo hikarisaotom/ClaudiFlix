@@ -1,19 +1,21 @@
 package com.example.clauditter.adapters
 
 
+import android.content.Intent
 import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.clauditter.Listeners.OnRecyclerClickListener
+import com.example.clauditter.Listeners.RecyclerPreviewListener
+import com.example.clauditter.MovieDetailsActivity
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.Movie
-
-
-//Glide
 
 
 class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -21,7 +23,9 @@ class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
 
 
 }
-class MoviePreviewAdapter(private var movies:List<Movie>): RecyclerView.Adapter<MoviePreviewHolder>() {
+class MoviePreviewAdapter(private var movies:List<Movie>):
+    RecyclerView.Adapter<MoviePreviewHolder>(),
+    OnRecyclerClickListener {
     private val TAG="MoviePreviewAdapter"
 
 
@@ -49,6 +53,7 @@ class MoviePreviewAdapter(private var movies:List<Movie>): RecyclerView.Adapter<
         if(movies.isEmpty()){
 
         }else{
+
             val movieItem=movies[position]
             Glide.with(holder.itemView)  //2
                 .load(movieItem.backdrop_path) //3
@@ -58,5 +63,26 @@ class MoviePreviewAdapter(private var movies:List<Movie>): RecyclerView.Adapter<
                 .into(holder.thumbnail) //8
         }
 
+    }
+
+
+    /**
+     * Methods: an item was cliked
+     */
+    override fun onItemClick(view: View, position: Int) {
+        val movie=getMovie(position)
+        //Toast.makeText(view.context ,"Tap $position",Toast.LENGTH_SHORT).show()
+        Log.d(TAG,"_______MOSTRANDO LAS PELICULAS_______")
+        Log.d(TAG,"${getMovie(position)}")
+        if(movie!=null){
+            Toast.makeText(view.context ,"Tap ${movie.title}", Toast.LENGTH_LONG).show()
+            val intent= Intent(view.context, MovieDetailsActivity::class.java)
+            //intent.putExtra(PHOTO_TRANSFER,photo)
+            view.context.startActivity(intent)
+        }
+    }
+
+    override fun onItemLongClick(view: View, position: Int) {
+        
     }
 }
