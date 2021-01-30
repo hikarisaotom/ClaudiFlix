@@ -4,17 +4,20 @@ import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.adapters.CastAdapter
 import com.example.clauditter.ui.clases.Person
+import com.example.clauditter.adapters.PagerAdapter
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.movie_description.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
+import androidx.viewpager.widget.ViewPager
 private const val TAG="DETAILS"
 class MovieDetailsActivity : AppCompatActivity() {
 private var movieId:Int=0
@@ -37,6 +40,36 @@ private var movieId:Int=0
         val client: OkHttpClient = OkHttpClient()
         downloadData(client,createUrl())
 
+       /* val pagerAdapter = PagerAdapter()
+       // viewPager_movieInfo.setPageTransformer(ZoomOut())
+        viewPager_movieInfo.adapter = pagerAdapter*/
+        viewPager_movieInfo.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL)
+        /*ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+        });*/
+        var textList = ArrayList<String>()
+        textList.add("Slide 1")
+        textList.add("Slide 2")
+        textList.add("Slide 3")
+        val viewPager:ViewPager = findViewById(R.id.viewPager)
+        val mViewPagerAdapter = PagerAdapter(this)
+        viewPager.adapter = mViewPagerAdapter
+
+    }
+
+    //PARA EL DE LOS LADOS
+    override fun onBackPressed() {
+        if (viewPager_movieInfo.currentItem == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed()
+        } else {
+            // Otherwise, select the previous step.
+            viewPager_movieInfo.currentItem = viewPager_movieInfo.currentItem - 1
+        }
     }
 
     fun createUrl(): String {

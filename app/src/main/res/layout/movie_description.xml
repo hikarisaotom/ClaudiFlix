@@ -21,16 +21,29 @@
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager_vistaPelicula"
+        android:id="@+id/viewPager_movieInfo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_vistaPelicula" />
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_vistaPelicula"
-        app:layout_constraintVertical_bias="0.473" />
+        app:layout_constraintTop_toBottomOf="@+id/img_vistaPelicula" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
