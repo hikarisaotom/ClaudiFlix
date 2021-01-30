@@ -2,12 +2,13 @@ package com.example.clauditter
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.adapters.CastAdapter
+import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Person
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
@@ -23,9 +24,6 @@ class Fragment_cast : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("FRAGMENT ","CREANDO FRAGMENTO")
         super.onCreate(savedInstanceState)
-        /**Downloading data*/
-        val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl("550"))
     }
 
     override fun onCreateView(
@@ -33,9 +31,11 @@ class Fragment_cast : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        val root=inflater.inflate(R.layout.fragment_cast, container, false)
+        var movieToShow = requireArguments().getParcelable<Movie>(MOVIE_TRANSFER)
+
         /**Downloading data*/
         val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl("550"))
+        downloadData(client,createUrl(movieToShow?.id.toString()))
         return root
     }
 
@@ -43,9 +43,6 @@ class Fragment_cast : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /**Downloading data*/
-        val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl("550"))
         recyclerView_Actores.layoutManager = LinearLayoutManager(activity)
         recyclerView_Actores.adapter = castAdapter
     }

@@ -1,43 +1,27 @@
 package com.example.clauditter.adapters
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.viewpager.widget.PagerAdapter
-import com.example.clauditter.R
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import com.example.clauditter.Fragment_cast
+import com.example.clauditter.ui.clases.Movie
+import com.example.clauditter.ui.home.HomeFragment
 
-class PagerAdapter (private val context: Context) : PagerAdapter() {
 
-    var layoutes = intArrayOf(R.layout.fragment_cast, R.layout.fragment_cast, R.layout.actores)
-    override fun getCount(): Int {
-        return layoutes.size
+class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdapter(fm) {
+    override fun getCount(): Int =3 //I only have 3 fragments to show
+
+    override fun getItem(position: Int): Fragment {
+        val bundle = Bundle()
+        var fragmentToShow:Fragment?=null
+        bundle.putParcelable(MOVIE_TRANSFER,movie)
+        if (position==0){
+            fragmentToShow= Fragment_cast()
+        }else{
+            fragmentToShow= HomeFragment()
+        }
+        fragmentToShow.setArguments(bundle)
+        return fragmentToShow
     }
-
-    override fun isViewFromObject(
-        view: View,
-        `object`: Any
-    ): Boolean {
-        return view === `object`
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val one: View = layoutInflater.inflate(layoutes[0], container, false)
-        val two: View = layoutInflater.inflate(layoutes[1], container, false)
-        val three: View = layoutInflater.inflate(layoutes[2], container, false)
-        val viewarr = arrayOf(one, two, three)
-        container.addView(viewarr[position])
-        return viewarr[position]
-    }
-
-    override fun destroyItem(
-        container: ViewGroup,
-        position: Int,
-        `object`: Any
-    ) {
-        container.removeViewAt(position)
-    }
-
 }
