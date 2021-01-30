@@ -17,7 +17,6 @@ class CastHolder(view: View): RecyclerView.ViewHolder(view){
     val actorName: TextView =view.findViewById(R.id.lbl_actorName)
     val character: TextView =view.findViewById(R.id.lbl_character)
     val rol: TextView =view.findViewById(R.id.lbl_rolDescription)
-
 }
 class CastAdapter(private var cast:List<Person>):
     RecyclerView.Adapter<CastHolder>() {
@@ -25,7 +24,7 @@ class CastAdapter(private var cast:List<Person>):
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.preview_movie,parent,false)
+        val view= LayoutInflater.from(parent.context).inflate(R.layout.actores,parent,false)
         return CastHolder(view)
     }
 
@@ -44,6 +43,7 @@ class CastAdapter(private var cast:List<Person>):
 
     override fun onBindViewHolder(holder: CastHolder, position: Int) {
         if(cast.isEmpty()){
+            //TODO IMPLEMENT THUMBNAIL
             /*Glide.with(holder.itemView)  //2
                 .load(actor.profile_path) //3
                 /*.centerCrop() //4

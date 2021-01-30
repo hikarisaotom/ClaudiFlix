@@ -10,7 +10,7 @@ import com.example.clauditter.R
 
 class PagerAdapter (private val context: Context) : PagerAdapter() {
 
-    var layoutes = intArrayOf(R.layout.actores, R.layout.fragment_actores, R.layout.actores)
+    var layoutes = intArrayOf(R.layout.fragment_cast, R.layout.fragment_cast, R.layout.actores)
     override fun getCount(): Int {
         return layoutes.size
     }
@@ -24,9 +24,9 @@ class PagerAdapter (private val context: Context) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val one: View = layoutInflater.inflate(R.layout.actores, container, false)
-        val two: View = layoutInflater.inflate(R.layout.fragment_actores, container, false)
-        val three: View = layoutInflater.inflate(R.layout.actores, container, false)
+        val one: View = layoutInflater.inflate(layoutes[0], container, false)
+        val two: View = layoutInflater.inflate(layoutes[1], container, false)
+        val three: View = layoutInflater.inflate(layoutes[2], container, false)
         val viewarr = arrayOf(one, two, three)
         container.addView(viewarr[position])
         return viewarr[position]
