@@ -24,7 +24,7 @@ class CastAdapter(private var cast:List<Person>):
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.actores,parent,false)
+        val view= LayoutInflater.from(parent.context).inflate(R.layout.actor,parent,false)
         return CastHolder(view)
     }
 
