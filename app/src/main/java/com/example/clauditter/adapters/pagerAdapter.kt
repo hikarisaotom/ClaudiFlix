@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.clauditter.Fragment_Information
 import com.example.clauditter.Fragment_cast
+import com.example.clauditter.Fragment_reviews
 import com.example.clauditter.ui.clases.Movie
-import com.example.clauditter.ui.home.HomeFragment
 
 
 class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdapter(fm) {
@@ -17,10 +17,11 @@ class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdap
         val bundle = Bundle()
         var fragmentToShow:Fragment?=null
         bundle.putParcelable(MOVIE_TRANSFER,movie)
-        if (position==0){
-            fragmentToShow= Fragment_Information()
-        }else{
-            fragmentToShow= Fragment_cast()
+        when(position){
+            0 ->{fragmentToShow= Fragment_Information()}
+            1 ->{fragmentToShow= Fragment_cast()}
+            2 ->{fragmentToShow= Fragment_reviews()}
+            else ->{fragmentToShow= Fragment_Information()}
         }
         fragmentToShow.setArguments(bundle)
         return fragmentToShow
