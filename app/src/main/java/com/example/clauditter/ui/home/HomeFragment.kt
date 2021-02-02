@@ -15,8 +15,6 @@ import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
 import com.google.gson.Gson
-
-
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
 import org.json.JSONObject
@@ -32,10 +30,8 @@ class HomeFragment : Fragment() {
     private val previewAdapter: CategoriasHomeAdapter = CategoriasHomeAdapter(ArrayList())
 
     /**Listas de parametros y nombres*/
-    val listToDomwload = arrayListOf<String>("Top Rated", "Now showing", "Another")
-    val fields = arrayListOf<String>("", "primary_release_date.gte", "primary_release_year")
-    val queryParams = arrayListOf<String>("", "2014-09-15", "2010")
-    val sortOrders = arrayListOf<String>("popularity.desc", "popularity.desc", "vote_average.desc")
+    val listToDomwload = arrayListOf<String>( "Now Playing", "Popular", "Top Rated", "Upcoming")
+    val fields = arrayListOf<String>( "now_playing", "popular","top_rated","upcoming")
     var listMoviesFull = ArrayList<MovieList>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +47,7 @@ class HomeFragment : Fragment() {
         })
         /** DOWNLOADING DATA*/
         var i = 0
-        while (i < 3) {
+        while (i < listToDomwload.size) {
             val client: OkHttpClient = OkHttpClient()
             downloadData(client, createUrl(i), i)
             i++
@@ -73,11 +69,9 @@ class HomeFragment : Fragment() {
             .scheme("https")
             .host("api.themoviedb.org")
             .addPathSegment("3")
-            .addPathSegment("discover")
             .addPathSegment("movie")
+            .addPathSegment(fields[index])
             .addQueryParameter("api_key", getString(R.string.api_key))
-            .addQueryParameter(fields[index], queryParams[index])
-            .addQueryParameter("sort_by", sortOrders[index])
             .build()
 
         return url.toString()

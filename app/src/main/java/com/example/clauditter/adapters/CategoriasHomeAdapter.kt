@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clauditter.MovieDetailsActivity
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.MovieList
-import com.example.clauditter.Listeners.OnRecyclerClickListener
 import com.example.clauditter.Listeners.RecyclerPreviewListener
 
 

@@ -73,7 +73,7 @@ class MoviePreviewAdapter(private var movies:List<Movie>):
         Log.d(TAG,"_______MOSTRANDO LAS PELICULAS_______")
         Log.d(TAG,"${getMovie(position)}")
         if(movie!=null){
-            Toast.makeText(view.context ,"Tap ${movie.title}", Toast.LENGTH_LONG).show()
+            Toast.makeText(view.context ," ${movie.title}", Toast.LENGTH_SHORT).show()
             val intent= Intent(view.context, MovieDetailsActivity::class.java)
             intent.putExtra(MOVIE_TRANSFER,movie)
             view.context.startActivity(intent)
