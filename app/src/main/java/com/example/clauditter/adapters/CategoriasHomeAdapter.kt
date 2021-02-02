@@ -1,7 +1,5 @@
 package com.example.clauditter.adapters
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.MovieList
-import com.example.clauditter.Listeners.RecyclerPreviewListener
+import com.example.clauditter.Listeners.RecyclerItemsListeners
 
 
 class MovieViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -58,7 +56,7 @@ class CategoriasHomeAdapter(private var ListOfLists:List<MovieList>):
             //TODO NO CRER UN NUEVO ADAPTER, GUARDARLO EN EL HOLDER
             holder.recyclerMovies.adapter=previewAdapter
             //agregamos las acciones de cuando se le de click
-            holder.recyclerMovies.addOnItemTouchListener(RecyclerPreviewListener(holder.context,holder.recyclerMovies,previewAdapter))
+            holder.recyclerMovies.addOnItemTouchListener(RecyclerItemsListeners(holder.context,holder.recyclerMovies,previewAdapter))
             previewAdapter.loadNewData(list.moviesToShow)
         }
 

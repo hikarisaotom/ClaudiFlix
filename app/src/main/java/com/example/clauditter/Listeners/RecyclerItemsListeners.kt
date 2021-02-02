@@ -5,7 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerPreviewListener
+class RecyclerItemsListeners
     (context:Context,
     recyclerView:RecyclerView,
     private val listener:OnRecyclerClickListener):RecyclerView.SimpleOnItemTouchListener() {

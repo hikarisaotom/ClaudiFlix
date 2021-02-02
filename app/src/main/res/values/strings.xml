@@ -11,6 +11,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="api_key">7a30c243665f85825e8f7e6ae19711fa</string>
+    <string name="yt_api_key">AIzaSyBEXcrGoHZodh95LGQJRWnelCwxOgfNvhM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -26,5 +27,6 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_youtube_trailers">YoutubeTrailersActivity</string>
 
 </resources>

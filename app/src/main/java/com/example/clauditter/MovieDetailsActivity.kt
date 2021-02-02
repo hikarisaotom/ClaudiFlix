@@ -14,7 +14,6 @@ class MovieDetailsActivity : FragmentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)
-        //Movie transfer is declared into MoviePreviewAdapter
         val movie=intent.getParcelableExtra<Movie>(MOVIE_TRANSFER) as Movie
         Glide.with(this)
             .load(movie.poster_path)

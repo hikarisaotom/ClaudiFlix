@@ -1,12 +1,17 @@
 package com.example.clauditter
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clauditter.Listeners.OnRecyclerClickListener
+import com.example.clauditter.Listeners.RecyclerItemsListeners
+import com.example.clauditter.adapters.TRAILER_KEY
 import com.example.clauditter.adapters.TrailerAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Trailer
@@ -16,7 +21,8 @@ import org.json.JSONObject
 import java.io.IOException
 import kotlinx.android.synthetic.main.fragment__trailers.*
 
-class Fragment_Trailers : Fragment() {
+class Fragment_Trailers : Fragment(),
+    OnRecyclerClickListener{
     /**RECYCLER ADAPTER */
     private val trailerAdapter: TrailerAdapter = TrailerAdapter(ArrayList())
 
@@ -46,6 +52,7 @@ class Fragment_Trailers : Fragment() {
         lbl_trailers.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0)
         recycler_Trailers.layoutManager = LinearLayoutManager(activity)
         recycler_Trailers.adapter = trailerAdapter
+        recycler_Trailers.addOnItemTouchListener(RecyclerItemsListeners(view.context,recycler_Trailers,this))
     }
 
 
@@ -110,6 +117,25 @@ class Fragment_Trailers : Fragment() {
         return person
     }
 
+
+    /**
+     * Methods: an item was cliked
+     */
+    override fun onItemClick(view: View, position: Int) {
+        val trailer = trailerAdapter.getTrailer(position)
+        if (trailer != null) {
+            if (trailer.name != null) {
+                Toast.makeText(view.context, " ${trailer.name}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(view.context, YoutubeTrailersActivity::class.java)
+                intent.putExtra(TRAILER_KEY, trailer.id)
+                view.context.startActivity(intent)
+            }
+        }
+    }
+
+    override fun onItemLongClick(view: View, position: Int) {
+
+    }
 
 
 
