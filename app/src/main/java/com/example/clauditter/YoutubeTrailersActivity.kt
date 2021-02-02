@@ -2,6 +2,7 @@ package com.example.clauditter
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,7 +16,7 @@ import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
 
 class YoutubeTrailersActivity : YouTubeBaseActivity(),YouTubePlayer.OnInitializedListener {
-    private var videoKey=""
+    private var videoKey="eFTLKWw542g"
     val playerView by lazy {YouTubePlayerView(this)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +28,8 @@ class YoutubeTrailersActivity : YouTubeBaseActivity(),YouTubePlayer.OnInitialize
         playerView.layoutParams=ConstraintLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        layout.addView(playerView)
-
         videoKey=intent.getStringExtra(TRAILER_KEY)!!
-
+        layout.addView(playerView)
         playerView.initialize(getString(R.string.yt_api_key),this)
     }
 
