@@ -45,6 +45,7 @@ class Fragment_cast : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView_Actores.layoutManager = LinearLayoutManager(activity)
         recyclerView_Actores.adapter = castAdapter
+        lbl_castTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0);
     }
 
 
