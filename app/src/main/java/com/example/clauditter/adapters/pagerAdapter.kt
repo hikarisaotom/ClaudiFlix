@@ -5,13 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.clauditter.Fragment_Information
+import com.example.clauditter.Fragment_Trailers
 import com.example.clauditter.Fragment_cast
 import com.example.clauditter.Fragment_reviews
 import com.example.clauditter.ui.clases.Movie
 
 
 class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdapter(fm) {
-    override fun getCount(): Int =3 //I only have 3 fragments to show
+    override fun getCount(): Int =4 //I only have 3 fragments to show
 
     override fun getItem(position: Int): Fragment {
         val bundle = Bundle()
@@ -21,7 +22,7 @@ class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdap
             0 ->{fragmentToShow= Fragment_Information()}
             1 ->{fragmentToShow= Fragment_cast()}
             2 ->{fragmentToShow= Fragment_reviews()}
-            else ->{fragmentToShow= Fragment_Information()}
+            else ->{fragmentToShow= Fragment_Trailers()}
         }
         fragmentToShow.setArguments(bundle)
         return fragmentToShow
