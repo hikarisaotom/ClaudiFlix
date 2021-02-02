@@ -1,13 +1,13 @@
-package com.example.clauditter.ui.slideshow
+package com.example.clauditter.ui.Login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SlideshowViewModel : ViewModel() {
+class LogInViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+        value = "LOG IN TO THE APP"
     }
     val text: LiveData<String> = _text
 }
