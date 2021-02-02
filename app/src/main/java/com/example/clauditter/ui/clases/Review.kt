@@ -1,7 +1,8 @@
 package com.example.clauditter.ui.clases
 
 class Review (
-   val authorDetails:AuthorDetails
+   val authorDetails:AuthorDetails,
+   val content:String
 ) //this is based in the author details field.
 
 

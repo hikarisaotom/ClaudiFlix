@@ -102,6 +102,7 @@ class Fragment_reviews : Fragment() {
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)
             val details=jsonObject.getJSONObject("author_details")
+            val content=jsonObject.getString("content")
             val authorDetail = convertJSon(details.toString())
             if(authorDetail?.avatar_path!=null){
                 authorDetail?.avatar_path= if(authorDetail?.avatar_path.contains("https://secure.gravatar.com")){
@@ -111,9 +112,7 @@ class Fragment_reviews : Fragment() {
                     "https://secure.gravatar.com/avatar"+authorDetail?.avatar_path
                 }
             }
-           // Log.d("REVIEW","${authorDetail?.avatar_path}")
-
-            reviews.add(Review(authorDetail!!))
+            reviews.add(Review(authorDetail!!,content))
         }
         Log.d("REVIEW","SE LLENO EL ARREGLO")
         reviewAdapter.loadNewData(reviews)

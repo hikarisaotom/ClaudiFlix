@@ -53,7 +53,7 @@ class ReviewAdapter(private var reviews:List<Review>):
                 .load(review.authorDetails.avatar_path) //3
                 .into(holder.thumbnail) //8
             holder.authorName.text=review.authorDetails.username
-            holder.content.text="PENDIENTE"
+            holder.content.text=review.content
             if(review.authorDetails.rating!=null){
                 holder.puntuation.text=review.authorDetails.rating!!.toString()+" /10"
             }else{
