@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.clauditter.LogViewModel
 import com.example.clauditter.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import okhttp3.*
@@ -20,7 +22,7 @@ import java.io.IOException
 class LogInFragment : Fragment() {
 
     private lateinit var galleryViewModel: LogInViewModel
-
+    private val viewModel: LogViewModel by activityViewModels()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -33,6 +35,7 @@ class LogInFragment : Fragment() {
         galleryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
         return root
     }
 
@@ -104,14 +107,16 @@ class LogInFragment : Fragment() {
                         activity?.runOnUiThread {
                             //todo agregar snackbar
                             Toast.makeText(activity,"Please check your data",Toast.LENGTH_LONG).show()
+                            viewModel.setFlag(false)
                         }
                         throw IOException()
                     }
-
                     activity?.runOnUiThread {
                         Toast.makeText(activity,"Welcome ${txtUsername_logIn.text.toString()}",Toast.LENGTH_LONG).show()
-
+                        viewModel.setFlag(true)
                     }
+
+
                 }
             }
         })
