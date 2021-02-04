@@ -11,18 +11,19 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clauditter.Listeners.OnRecyclerClickListener
+
 import com.example.clauditter.MovieDetailsActivity
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.Movie
 
 const val MOVIE_TRANSFER="MOVIE_TRANSFER"
-
+const val USERNAME="USERNAME"
+const val IS_LOGED="IS_LOGED"
 class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
     val thumbnail: ImageView =view.findViewById(R.id.img_preview)
-
-
 }
-class MoviePreviewAdapter(private var movies:List<Movie>):
+class MoviePreviewAdapter(private var movies:List<Movie>,
+private val username:String,private  val isLoged:Boolean):
     RecyclerView.Adapter<MoviePreviewHolder>(),
     OnRecyclerClickListener {
     private val TAG="MoviePreviewAdapter"
@@ -76,6 +77,8 @@ class MoviePreviewAdapter(private var movies:List<Movie>):
             Toast.makeText(view.context ," ${movie.title}", Toast.LENGTH_SHORT).show()
             val intent= Intent(view.context, MovieDetailsActivity::class.java)
             intent.putExtra(MOVIE_TRANSFER,movie)
+            intent.putExtra(USERNAME,username)
+            intent.putExtra(IS_LOGED,isLoged)
             view.context.startActivity(intent)
         }
     }

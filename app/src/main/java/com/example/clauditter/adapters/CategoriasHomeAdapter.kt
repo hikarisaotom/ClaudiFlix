@@ -17,7 +17,8 @@ class MovieViewHolder(view: View): RecyclerView.ViewHolder(view){
     val context=view.context
 }
 
-class CategoriasHomeAdapter(private var ListOfLists:List<MovieList>):
+class CategoriasHomeAdapter(private var ListOfLists:List<MovieList>,
+private val username:String,private val flag:Boolean):
     RecyclerView.Adapter<MovieViewHolder>()
 {
     private val TAG="CategoriasHomeAdap"
@@ -46,7 +47,7 @@ class CategoriasHomeAdapter(private var ListOfLists:List<MovieList>):
             val list=ListOfLists[position]
             holder.titleList.text=list.title
             /**RECYCLER ADAPTER */
-             val previewAdapter=MoviePreviewAdapter(ArrayList())
+             val previewAdapter=MoviePreviewAdapter(ArrayList(),username,flag)
             val  horizontalLayout = LinearLayoutManager(
                 null,
                 LinearLayoutManager.HORIZONTAL,

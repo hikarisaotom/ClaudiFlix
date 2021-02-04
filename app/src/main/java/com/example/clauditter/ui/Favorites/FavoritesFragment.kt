@@ -15,7 +15,7 @@ import com.example.clauditter.R
 class FavoritesFragment : Fragment() {
 
     private lateinit var slideshowViewModel: FavoritesViewModel
-    private val viewModel: LogViewModel by activityViewModels()
+    private val logInModel: LogViewModel by activityViewModels()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -29,7 +29,7 @@ class FavoritesFragment : Fragment() {
             textView.text = it
         })
 
-        viewModel.flag.observe(viewLifecycleOwner, Observer {
+        logInModel.flag.observe(viewLifecycleOwner, Observer {
             if(it){
                 textView.visibility=View.VISIBLE
             }else{//Invisible: no s emuestra pero ocupa espacio en la pantalla, con gone se va todo

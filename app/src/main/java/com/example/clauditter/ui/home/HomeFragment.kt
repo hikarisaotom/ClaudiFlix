@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clauditter.LogViewModel
 import com.example.clauditter.R
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
@@ -25,9 +27,10 @@ private const val TAG = "fragmentHome"
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private val logInModel: LogViewModel by activityViewModels()
 
     /**RECYCLER ADAPTER */
-    private val previewAdapter: CategoriasHomeAdapter = CategoriasHomeAdapter(ArrayList())
+    private lateinit var previewAdapter: CategoriasHomeAdapter
 
     /**Listas de parametros y nombres*/
     val listToDomwload = arrayListOf<String>( "Now Playing", "Popular", "Top Rated", "Upcoming")
@@ -38,13 +41,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.lbl_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+        logInModel.user.observe(viewLifecycleOwner, Observer {
+            textView.text = "Welcome To ClaudiFlix "+it
         })
+        previewAdapter=CategoriasHomeAdapter(ArrayList(),logInModel.user.value!!,logInModel.flag.value!!)
         /** DOWNLOADING DATA*/
         var i = 0
         while (i < listToDomwload.size) {
@@ -59,6 +63,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         recyclerView_CategoriasHome.layoutManager = LinearLayoutManager(activity)
         recyclerView_CategoriasHome.adapter = previewAdapter
     }

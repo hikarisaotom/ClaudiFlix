@@ -20,22 +20,37 @@ import java.io.IOException
 
 
 class LogInFragment : Fragment() {
-
     private lateinit var galleryViewModel: LogInViewModel
-    private val viewModel: LogViewModel by activityViewModels()
+    private val logInModel: LogViewModel by activityViewModels()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        galleryViewModel =
-                ViewModelProvider(this).get(LogInViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         val textView: TextView = root.findViewById(R.id.text_gallery)
-        galleryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
 
+        logInModel.flag.observe(viewLifecycleOwner, Observer {
+            if(it){
+                btn_logOut.visibility=View.VISIBLE
+                lbl_goodbye.visibility=View.VISIBLE
+                text_gallery.visibility=View.GONE
+                txtUsername_logIn.visibility=View.GONE
+                txtPassword_logIn.visibility=View.GONE
+                lblPassword.visibility=View.GONE
+                lblUsername.visibility=View.GONE
+                btnLogIn.visibility=View.GONE
+            }else{
+                btn_logOut.visibility=View.GONE
+                lbl_goodbye.visibility=View.GONE
+                text_gallery.visibility=View.VISIBLE
+                txtUsername_logIn.visibility=View.VISIBLE
+                txtPassword_logIn.visibility=View.VISIBLE
+                lblPassword.visibility=View.VISIBLE
+                lblUsername.visibility=View.VISIBLE
+                btnLogIn.visibility=View.VISIBLE
+            }
+        })
         return root
     }
 
@@ -107,13 +122,15 @@ class LogInFragment : Fragment() {
                         activity?.runOnUiThread {
                             //todo agregar snackbar
                             Toast.makeText(activity,"Please check your data",Toast.LENGTH_LONG).show()
-                            viewModel.setFlag(false)
+                            logInModel.setFlag(false)
+                            logInModel.setUser("")
                         }
                         throw IOException()
                     }
                     activity?.runOnUiThread {
                         Toast.makeText(activity,"Welcome ${txtUsername_logIn.text.toString()}",Toast.LENGTH_LONG).show()
-                        viewModel.setFlag(true)
+                        logInModel.setFlag(true)
+                        logInModel.setUser(txtUsername_logIn.text.toString())
                     }
 
 

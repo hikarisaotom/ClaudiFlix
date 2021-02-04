@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.clauditter.ui.clases.Movie
 import kotlinx.android.synthetic.main.fragment_information.*
 
 
 class Fragment_Information : Fragment() {
     private var movie:Movie?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         movie=arguments?.getParcelable<Movie>(MOVIE_TRANSFER)
@@ -21,6 +24,7 @@ class Fragment_Information : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_information, container, false)
     }
 

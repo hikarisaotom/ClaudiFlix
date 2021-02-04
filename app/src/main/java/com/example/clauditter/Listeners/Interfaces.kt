@@ -8,3 +8,10 @@ interface OnRecyclerClickListener {
     fun onItemLongClick(view: View, position: Int)
 }
 
+interface FragmentToActivity {
+    fun communicate(comm: String?)
+}
+
+
+
+

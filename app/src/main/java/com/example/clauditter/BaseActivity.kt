@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
 const val MOVIE_TRANSFER="MOVIE_TRANSFER"
-
 @SuppressLint("Registered")
 open class BaseActivity:AppCompatActivity() {
     private val TAG="BaseActivity"
