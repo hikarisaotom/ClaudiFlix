@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "949593044518",
+    "project_id": "toyproject-pp-fase1",
+    "storage_bucket": "toyproject-pp-fase1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949593044518:android:649a404f23bec37a1518e7",
+        "android_client_info": {
+          "package_name": "com.example.clauditter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949593044518-q1odh3k5utbcs2ldk42qchojcjanb769.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVLWTMAFPw2jrznrHyDoR4OILcakx-r6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949593044518-q1odh3k5utbcs2ldk42qchojcjanb769.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
