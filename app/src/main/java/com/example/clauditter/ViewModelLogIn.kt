@@ -12,6 +12,7 @@ class ViewModelLogIn : ViewModel() {
     private val mutableUser = MutableLiveData<String>()
     private val mutableMovieList = MutableLiveData<ArrayList<MovieList>>()
     private val mutableFavoriteList = MutableLiveData<ArrayList<Favorite>>()
+
     init {
         mutableLogIn.value=false
         mutableUser.value=""

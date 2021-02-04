@@ -24,6 +24,7 @@ class MovieDetailsActivity : FragmentActivity() {
     private var flag = false
     private var flagExistInList = false
     private lateinit var movie: Movie
+    private var dbMovieId:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)
@@ -40,7 +41,7 @@ class MovieDetailsActivity : FragmentActivity() {
 
         if (flag) {
             btn_addRemoveFavorite.visibility = View.VISIBLE
-            flagExistInList=isAdded()
+            isAdded()
         } else {
             btn_addRemoveFavorite.visibility = View.GONE
         }
@@ -112,11 +113,24 @@ class MovieDetailsActivity : FragmentActivity() {
 
 
     private fun removeFromFavorites() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("favorites").document(dbMovieId)
+            .delete()
+            .addOnSuccessListener { Toast.makeText(
+                this,
+                "${movie.title} deleted from  favorites",
+                Toast.LENGTH_SHORT
+            ).show() }
+            .addOnFailureListener { Toast.makeText(
+                this,
+                "There was an error :(",
+                Toast.LENGTH_SHORT
+            ).show() }
 
     }
 
 
-    private fun isAdded():Boolean {
+    private fun isAdded() {
         var resp=false
         val db = FirebaseFirestore.getInstance()
 
@@ -129,16 +143,17 @@ class MovieDetailsActivity : FragmentActivity() {
             }
             val documents = snapshots?.documents
 
-                resp = if(documents!=null&&documents.size>=1){
+                 if(documents!=null&&documents.size>=1){
                     setStyleRemove()
-                    true
+                    dbMovieId=documents[0].id
+                    flagExistInList=true
                 }else{
                     setStyleAdd()
-                    false
+                    flagExistInList=false
                 }
         }
 
-        return resp
+
 
     }
 

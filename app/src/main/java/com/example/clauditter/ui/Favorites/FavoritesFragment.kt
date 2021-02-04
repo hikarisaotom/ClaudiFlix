@@ -85,11 +85,13 @@ class FavoritesFragment : Fragment() {
                     lbl_warningFavorites.text = "You don`t have any movie added yet"
                 } else {
                     documents?.forEach { document ->
+
                         favorites.add(
                             Favorite(
                                 document["movieId"].toString().toInt(),
                                 document["movieTitle"].toString(),
-                                document["photo"].toString()
+                                document["photo"].toString(),
+                                        document.id
                             )
                         )
                     }
