@@ -1,6 +1,5 @@
 package com.example.clauditter.ui.Login
 
-import android.R.attr
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.clauditter.LogViewModel
+import com.example.clauditter.ViewModelLogIn
 import com.example.clauditter.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import okhttp3.*
@@ -21,7 +19,7 @@ import java.io.IOException
 
 class LogInFragment : Fragment() {
     private lateinit var galleryViewModel: LogInViewModel
-    private val logInModel: LogViewModel by activityViewModels()
+    private val logInModel: ViewModelLogIn by activityViewModels()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

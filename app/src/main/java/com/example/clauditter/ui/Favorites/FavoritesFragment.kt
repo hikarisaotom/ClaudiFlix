@@ -1,19 +1,16 @@
 package com.example.clauditter.ui.Favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clauditter.LogViewModel
+import com.example.clauditter.ViewModelLogIn
 import com.example.clauditter.R
-import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.adapters.FavoritesAdapter
 import com.example.clauditter.ui.clases.Favorite
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_favorites.*
 class FavoritesFragment : Fragment() {
 
     private lateinit var slideshowViewModel: FavoritesViewModel
-    private val logInModel: LogViewModel by activityViewModels()
+    private val logInModel: ViewModelLogIn by activityViewModels()
     /**RECYCLER ADAPTER */
     private  var favoritesAdapter: FavoritesAdapter=FavoritesAdapter(ArrayList())
     override fun onCreateView(

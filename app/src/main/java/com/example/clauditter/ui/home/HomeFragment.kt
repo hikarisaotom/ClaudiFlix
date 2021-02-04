@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clauditter.LogViewModel
+import com.example.clauditter.ViewModelLogIn
 import com.example.clauditter.R
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
@@ -27,7 +27,7 @@ private const val TAG = "fragmentHome"
 class HomeFragment : Fragment() {
 
 
-    private val logInModel: LogViewModel by activityViewModels()
+    private val logInModel: ViewModelLogIn by activityViewModels()
 
     /**RECYCLER ADAPTER */
     private lateinit var previewAdapter: CategoriasHomeAdapter
@@ -44,18 +44,25 @@ class HomeFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val textView: TextView = root.findViewById(R.id.lbl_home)
+        previewAdapter=CategoriasHomeAdapter(ArrayList(),logInModel.user.value!!,logInModel.flag.value!!)
 
         logInModel.user.observe(viewLifecycleOwner, Observer {
             textView.text = "Welcome To ClaudiFlix "+it
         })
-        previewAdapter=CategoriasHomeAdapter(ArrayList(),logInModel.user.value!!,logInModel.flag.value!!)
-        /** DOWNLOADING DATA*/
-        var i = 0
-        while (i < listToDomwload.size) {
-            val client: OkHttpClient = OkHttpClient()
-            downloadData(client, createUrl(i), i)
-            i++
+
+       if(logInModel.movieListIsLoaded()){//downloading new data
+           Toast.makeText(activity,"downloading new data",Toast.LENGTH_LONG).show()
+            var i = 0
+            while (i < listToDomwload.size) {
+                val client: OkHttpClient = OkHttpClient()
+                downloadData(client, createUrl(i), i)
+                i++
+            }
         }
+
+        logInModel.CategoriesList.observe(viewLifecycleOwner, Observer {
+            previewAdapter.loadNewData(it)
+        })
 
 
         return root
@@ -63,7 +70,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         recyclerView_CategoriasHome.layoutManager = LinearLayoutManager(activity)
         recyclerView_CategoriasHome.adapter = previewAdapter
     }
@@ -129,8 +135,9 @@ class HomeFragment : Fragment() {
         }
         val newListCategory = MovieList(listToDomwload[index], movieList)
         listMoviesFull.add(newListCategory)
-        if (index == 2) {
-            previewAdapter.loadNewData(listMoviesFull)
+        if (listMoviesFull.size>=2) {
+           // previewAdapter.loadNewData(listMoviesFull)
+            logInModel.loadMovieList(listMoviesFull)
         }
     }
 
