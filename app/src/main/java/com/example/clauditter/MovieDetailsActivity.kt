@@ -5,19 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.clauditter.adapters.IS_LOGED
 import com.example.clauditter.adapters.PagerAdapter
 import com.example.clauditter.adapters.USERNAME
-import com.example.clauditter.ui.clases.Favorite
 import com.example.clauditter.ui.clases.Movie
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.movie_description.*
 
 
@@ -46,18 +41,12 @@ class MovieDetailsActivity : FragmentActivity() {
         if (flag) {
             btn_addRemoveFavorite.visibility = View.VISIBLE
             flagExistInList=isAdded()
-            if(flagExistInList){
-                setStyleRemove()
-            }else{
-                setStyleAdd()
-            }
         } else {
             btn_addRemoveFavorite.visibility = View.GONE
         }
-        //PROJECT ID: toyproject-pp-fase1 TODO
+
         btn_addRemoveFavorite.setOnClickListener(View.OnClickListener {
             addRemoveFavorite()
-
         })
 
 
@@ -73,20 +62,20 @@ class MovieDetailsActivity : FragmentActivity() {
             viewpager.currentItem = viewpager.currentItem - 1
         }
     }
-    fun setStyleRemove(){
+    private fun setStyleRemove(){
         btn_addRemoveFavorite.text = "Remove from favorites"
         btn_addRemoveFavorite.setBackgroundColor(Color.RED)
     }
-    fun setStyleAdd(){
+    private fun setStyleAdd(){
         btn_addRemoveFavorite.text = "Add to favorites"
         btn_addRemoveFavorite.setBackgroundColor(Color.GREEN)
     }
 
-    fun addRemoveFavorite() {
-        if (flagExistInList) {//existe
-            setStyleAdd()
+    private fun addRemoveFavorite() {
+        if(flagExistInList){ //exist
             removeFromFavorites()
-        } else {//no existe
+            setStyleAdd()
+        }else{//not exist
             addToFavorites()
             setStyleRemove()
         }
@@ -94,7 +83,7 @@ class MovieDetailsActivity : FragmentActivity() {
         btn_addRemoveFavorite.setTextColor(Color.WHITE)
     }
 
-    fun addToFavorites() {
+    private fun addToFavorites() {
         val favorite = hashMapOf(
             "username" to username,
             "movieId" to movie.id,
@@ -122,25 +111,32 @@ class MovieDetailsActivity : FragmentActivity() {
     }
 
 
-    fun removeFromFavorites() {
+    private fun removeFromFavorites() {
 
     }
 
 
-    fun isAdded():Boolean {
+    private fun isAdded():Boolean {
         var resp=false
         val db = FirebaseFirestore.getInstance()
-        val filter=db.collection("favorites")
-            .whereEqualTo("username", username)
-            .whereEqualTo("movieTitle", movie.title)
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    //error
-                    return@addSnapshotListener
-                }
-                val documents = snapshots?.documents
-                resp = !(documents == null || documents.size <= 0)
+
+        val filter = db.collection("favorites")
+        filter.whereEqualTo("username", username).whereEqualTo("movieTitle", movie.title)
+            .whereEqualTo("movieId",movie.id).addSnapshotListener { snapshots, e ->
+            if (e != null) {
+                //error
+                return@addSnapshotListener
             }
+            val documents = snapshots?.documents
+
+                resp = if(documents!=null&&documents.size>=1){
+                    setStyleRemove()
+                    true
+                }else{
+                    setStyleAdd()
+                    false
+                }
+        }
 
         return resp
 
