@@ -61,6 +61,10 @@ class LogInFragment : Fragment() {
         btnLogIn.setOnClickListener(View.OnClickListener {
             validateAccess()
         })
+        btn_logOut.setOnClickListener(View.OnClickListener {
+            logInModel.setFlag(false)
+            logInModel.setUser("")
+        })
 
     }//fin de metodo
 

@@ -48,7 +48,7 @@ class FavoritesFragment : Fragment() {
         })
 
         logInModel.user.observe(viewLifecycleOwner, Observer {
-                lbl_favoritesMessage.text= "$it´ s Favorite List"
+                lbl_favoritesMessage.text= "$it´ s Favorites List"
         })
         return root
     }
