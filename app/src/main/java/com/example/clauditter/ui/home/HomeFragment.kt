@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        logInModel.CategoriesList.observe(viewLifecycleOwner, Observer {
+        logInModel.movieList.observe(viewLifecycleOwner, Observer {
             previewAdapter.loadNewData(it)
         })
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -15,14 +16,16 @@ import com.example.clauditter.adapters.FavoritesAdapter
 import com.example.clauditter.ui.clases.Favorite
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import okhttp3.OkHttpClient
 
 
 class FavoritesFragment : Fragment() {
 
     private lateinit var slideshowViewModel: FavoritesViewModel
     private val logInModel: ViewModelLogIn by activityViewModels()
+
     /**RECYCLER ADAPTER */
-    private  var favoritesAdapter: FavoritesAdapter=FavoritesAdapter(ArrayList())
+    private var favoritesAdapter: FavoritesAdapter = FavoritesAdapter(ArrayList())
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +39,10 @@ class FavoritesFragment : Fragment() {
                 lbl_warningFavorites.visibility = View.GONE
                 recycler_favorites.visibility = View.VISIBLE
                 lbl_favoritesMessage.visibility = View.VISIBLE
-                getFavorites()
+                if (logInModel.favoriteListIsLoaded()) {//downloading new data
+                    Toast.makeText(activity, "downloading new data", Toast.LENGTH_LONG).show()
+                    getFavorites()
+                }
             } else {
                 lbl_warningFavorites.visibility = View.VISIBLE
                 recycler_favorites.visibility = View.GONE
@@ -45,7 +51,13 @@ class FavoritesFragment : Fragment() {
         })
 
         logInModel.user.observe(viewLifecycleOwner, Observer {
-                lbl_favoritesMessage.text= "$it´ s Favorites List"
+            lbl_favoritesMessage.text = "$it´ s Favorites List"
+            getFavorites() //new user, new favorites
+        })
+
+
+        logInModel.favoritesList.observe(viewLifecycleOwner, Observer {
+            favoritesAdapter.loadNewData(it)
         })
         return root
     }
@@ -81,7 +93,8 @@ class FavoritesFragment : Fragment() {
                             )
                         )
                     }
-                    favoritesAdapter.loadNewData(favorites)
+                    logInModel.loadFavoriteList(favorites)
+                    //favoritesAdapter.loadNewData(favorites)
                 }
             }
     }
