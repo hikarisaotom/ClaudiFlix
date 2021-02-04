@@ -87,7 +87,8 @@ class MovieDetailsActivity : FragmentActivity() {
         val favorite = hashMapOf(
             "username" to username,
             "movieId" to movie.id,
-            "movieTitle" to movie.title
+            "movieTitle" to movie.title,
+            "photo" to movie.backdrop_path
         )
         val db = FirebaseFirestore.getInstance()
         db.collection("favorites")

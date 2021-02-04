@@ -21,6 +21,7 @@
     <string name="title_activity_movie_details">MovieDetailsActivity</string>
     <string name="addFavorite">Remove from Favorites</string>
     <string name="removeFavorite">Add to Favorites</string>
+    <string name="LoginTosee">Please Log in to access to this function </string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

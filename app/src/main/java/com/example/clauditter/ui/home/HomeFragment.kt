@@ -26,7 +26,7 @@ private const val TAG = "fragmentHome"
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+
     private val logInModel: LogViewModel by activityViewModels()
 
     /**RECYCLER ADAPTER */
