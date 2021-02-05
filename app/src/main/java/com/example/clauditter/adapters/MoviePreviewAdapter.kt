@@ -14,6 +14,7 @@ import com.example.clauditter.Listeners.OnRecyclerClickListener
 
 import com.example.clauditter.Activity_MovieDetails
 import com.example.clauditter.R
+import com.example.clauditter.ViewModel_LogIn
 import com.example.clauditter.ui.clases.Movie
 
 const val MOVIE_TRANSFER="MOVIE_TRANSFER"
@@ -70,9 +71,9 @@ private val username:String,private  val isLoged:Boolean):
      */
     override fun onItemClick(view: View, position: Int) {
         val movie=getMovie(position)
-        //Toast.makeText(view.context ,"Tap $position",Toast.LENGTH_SHORT).show()
-        Log.d(TAG,"_______MOSTRANDO LAS PELICULAS_______")
-        Log.d(TAG,"${getMovie(position)}")
+
+        /*Log.d(TAG,"_______MOSTRANDO LAS PELICULAS_______")
+        Log.d(TAG,"${getMovie(position)}")*/
         if(movie!=null){
             Toast.makeText(view.context ," ${movie.title}", Toast.LENGTH_SHORT).show()
             val intent= Intent(view.context, Activity_MovieDetails::class.java)

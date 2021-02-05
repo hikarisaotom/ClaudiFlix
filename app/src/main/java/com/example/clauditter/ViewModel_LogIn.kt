@@ -59,4 +59,15 @@ class ViewModel_LogIn : ViewModel() {
         }
         return null
     }
-}
+
+    fun deleteMovie(movieid:Int?){
+        mutableFavoriteList.value?.forEach {
+            if(it.movieid==movieid){
+                mutableFavoriteList.value?.remove(it)
+            }
+        }
+
+    }
+
+
+}//end of class

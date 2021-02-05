@@ -79,7 +79,7 @@ class FavoritesFragment : Fragment(),
 
     private fun getFavorites() {
         val db = FirebaseFirestore.getInstance()
-        val favorites = ArrayList<Favorite>()
+
         db.collection("favorites")
             .whereEqualTo("username", logInModel.user.value.toString())
             .addSnapshotListener { snapshots, e ->
@@ -93,6 +93,7 @@ class FavoritesFragment : Fragment(),
                     lbl_warningFavorites.visibility = View.VISIBLE
                     lbl_warningFavorites.text = "You don`t have any movie added yet"
                 } else {
+                    val favorites = ArrayList<Favorite>()
                     documents?.forEach { document ->
                         favorites.add(
                             Favorite(
@@ -134,12 +135,16 @@ class FavoritesFragment : Fragment(),
                            view.context,
                            "${favMovie.movieTitle} deleted from  favorites",
                            Toast.LENGTH_SHORT
-                       ).show() }
+                       ).show()
+
+                           }
                        .addOnFailureListener { Toast.makeText(
                            view.context,
                            "There was an error :(",
                            Toast.LENGTH_SHORT
                        ).show() }
+
+
                }
     }
 }//End Of Class

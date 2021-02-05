@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.clauditter.adapters.IS_LOGED
@@ -15,13 +16,15 @@ import com.example.clauditter.ui.clases.Movie
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.movie_description.*
 
-class Activity_MovieDetails : FragmentActivity() {
+class Activity_MovieDetails : AppCompatActivity() {
     private lateinit var viewpager: ViewPager
     private var username: String? = ""
     private var flag = false
     private var flagExistInList = false
     private lateinit var movie: Movie
     private var dbMovieId:String=""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)

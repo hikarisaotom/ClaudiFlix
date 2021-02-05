@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.Favorite
-import com.example.clauditter.ui.clases.Person
 
 
 class FavoriteHolder(view: View): RecyclerView.ViewHolder(view){
