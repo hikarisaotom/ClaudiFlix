@@ -39,7 +39,7 @@ class FavoritesAdapter(private var favorites:List<Favorite>):
         notifyDataSetChanged()
     }
 
-    fun getMovie(position:Int):Favorite?{
+    fun getFavorite(position:Int):Favorite?{
         return if(favorites.isNotEmpty())favorites[position] else null
     }
 

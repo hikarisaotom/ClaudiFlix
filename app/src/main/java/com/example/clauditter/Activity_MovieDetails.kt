@@ -15,10 +15,7 @@ import com.example.clauditter.ui.clases.Movie
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.movie_description.*
 
-
-private const val TAG = "DETAILS"
-
-class MovieDetailsActivity : FragmentActivity() {
+class Activity_MovieDetails : FragmentActivity() {
     private lateinit var viewpager: ViewPager
     private var username: String? = ""
     private var flag = false
@@ -28,16 +25,19 @@ class MovieDetailsActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)
+        //Obteniendo valores pasados desde el fragment Home
         movie = intent.getParcelableExtra<Movie>(MOVIE_TRANSFER) as Movie
+        username = intent.getStringExtra(USERNAME)
+        flag = intent.getBooleanExtra(IS_LOGED, false)
+
         Glide.with(this)
             .load(movie.poster_path)
             .into(img_vistaPelicula)
         viewpager = findViewById(R.id.viewPagerDetails)
+        //agregando controlador al viewpager
         val pagerAdapter = PagerAdapter(supportFragmentManager, movie)
         viewpager.adapter = pagerAdapter
 
-        username = intent.getStringExtra(USERNAME)
-        flag = intent.getBooleanExtra(IS_LOGED, false)
 
         if (flag) {
             btn_addRemoveFavorite.visibility = View.VISIBLE
@@ -52,17 +52,16 @@ class MovieDetailsActivity : FragmentActivity() {
 
 
     }
-
+/*View Pager Methods*/
     override fun onBackPressed() {
         if (viewpager.currentItem == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed()
         } else {
-            // Otherwise, select the previous step.
             viewpager.currentItem = viewpager.currentItem - 1
         }
     }
+
+
     private fun setStyleRemove(){
         btn_addRemoveFavorite.text = "Remove from favorites"
         btn_addRemoveFavorite.setBackgroundColor(Color.RED)
@@ -108,7 +107,6 @@ class MovieDetailsActivity : FragmentActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
     }
 
 
@@ -126,14 +124,11 @@ class MovieDetailsActivity : FragmentActivity() {
                 "There was an error :(",
                 Toast.LENGTH_SHORT
             ).show() }
-
     }
 
-
+//Verifies if a movie is already added to a favorites list
     private fun isAdded() {
-        var resp=false
         val db = FirebaseFirestore.getInstance()
-
         val filter = db.collection("favorites")
         filter.whereEqualTo("username", username).whereEqualTo("movieTitle", movie.title)
             .whereEqualTo("movieId",movie.id).addSnapshotListener { snapshots, e ->
@@ -142,7 +137,6 @@ class MovieDetailsActivity : FragmentActivity() {
                 return@addSnapshotListener
             }
             val documents = snapshots?.documents
-
                  if(documents!=null&&documents.size>=1){
                     setStyleRemove()
                     dbMovieId=documents[0].id
@@ -152,12 +146,5 @@ class MovieDetailsActivity : FragmentActivity() {
                     flagExistInList=false
                 }
         }
-
-
-
     }
-
-
-
-
 }//end of class

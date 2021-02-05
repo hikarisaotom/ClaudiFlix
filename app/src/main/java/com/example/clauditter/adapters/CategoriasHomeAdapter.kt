@@ -54,7 +54,6 @@ private val username:String,private val flag:Boolean):
                 false
             )
             holder.recyclerMovies.layoutManager= horizontalLayout
-            //TODO NO CRER UN NUEVO ADAPTER, GUARDARLO EN EL HOLDER
             holder.recyclerMovies.adapter=previewAdapter
             //agregamos las acciones de cuando se le de click
             holder.recyclerMovies.addOnItemTouchListener(RecyclerItemsListeners(holder.context,holder.recyclerMovies,previewAdapter))

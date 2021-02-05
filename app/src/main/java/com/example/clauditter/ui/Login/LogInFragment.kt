@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.example.clauditter.ViewModelLogIn
+import com.example.clauditter.ViewModel_LogIn
 import com.example.clauditter.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import okhttp3.*
@@ -18,16 +17,14 @@ import java.io.IOException
 
 
 class LogInFragment : Fragment() {
-    private lateinit var galleryViewModel: LogInViewModel
-    private val logInModel: ViewModelLogIn by activityViewModels()
+
+    private val logInModel: ViewModel_LogIn by activityViewModels()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
-        val textView: TextView = root.findViewById(R.id.text_gallery)
-
         logInModel.flag.observe(viewLifecycleOwner, Observer {
             if(it){
                 btn_logOut.visibility=View.VISIBLE
@@ -80,7 +77,7 @@ class LogInFragment : Fragment() {
             .build()
         return url.toString()
     }
-    fun validateAccess(){
+    private fun validateAccess(){
         val url= createUrl("new")
         val client: OkHttpClient = OkHttpClient()
         val request = Request.Builder()

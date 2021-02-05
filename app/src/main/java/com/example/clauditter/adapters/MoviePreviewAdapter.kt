@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clauditter.Listeners.OnRecyclerClickListener
 
-import com.example.clauditter.MovieDetailsActivity
+import com.example.clauditter.Activity_MovieDetails
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.Movie
 
@@ -75,7 +75,7 @@ private val username:String,private  val isLoged:Boolean):
         Log.d(TAG,"${getMovie(position)}")
         if(movie!=null){
             Toast.makeText(view.context ," ${movie.title}", Toast.LENGTH_SHORT).show()
-            val intent= Intent(view.context, MovieDetailsActivity::class.java)
+            val intent= Intent(view.context, Activity_MovieDetails::class.java)
             intent.putExtra(MOVIE_TRANSFER,movie)
             intent.putExtra(USERNAME,username)
             intent.putExtra(IS_LOGED,isLoged)

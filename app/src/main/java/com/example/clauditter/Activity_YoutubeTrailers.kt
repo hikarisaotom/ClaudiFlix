@@ -15,7 +15,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerView
 
-class YoutubeTrailersActivity : YouTubeBaseActivity(),YouTubePlayer.OnInitializedListener {
+class Activity_YoutubeTrailers : YouTubeBaseActivity(),YouTubePlayer.OnInitializedListener {
     private var videoKey="eFTLKWw542g"
     val playerView by lazy {YouTubePlayerView(this)}
     override fun onCreate(savedInstanceState: Bundle?) {

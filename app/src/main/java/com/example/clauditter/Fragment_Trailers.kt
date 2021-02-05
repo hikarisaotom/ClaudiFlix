@@ -126,7 +126,7 @@ class Fragment_Trailers : Fragment(),
         if (trailer != null) {
             if (trailer.name != null&&trailer.id!=null) {
                 Toast.makeText(view.context, " ${trailer.name}", Toast.LENGTH_SHORT).show()
-                val intent = Intent(view.context, YoutubeTrailersActivity::class.java)
+                val intent = Intent(view.context, Activity_YoutubeTrailers::class.java)
                 intent.putExtra(TRAILER_KEY, trailer.key)
                 view.context.startActivity(intent)
             }else{

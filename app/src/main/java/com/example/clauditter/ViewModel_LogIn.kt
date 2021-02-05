@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.clauditter.ui.clases.Favorite
+import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
 
-class ViewModelLogIn : ViewModel() {
+class ViewModel_LogIn : ViewModel() {
     /*Live Data esta optimizado para uso en ciclos de vida, mutablelive data permite que cambien*/
     private val mutableLogIn = MutableLiveData<Boolean>()
     private val mutableUser = MutableLiveData<String>()
@@ -46,5 +47,16 @@ class ViewModelLogIn : ViewModel() {
 
     fun loadFavoriteList(newList: ArrayList<Favorite>){
         mutableFavoriteList.value=newList
+    }
+
+    fun getMovie(movieid:Int?):Movie?{
+        mutableMovieList.value?.forEach { movieList ->
+            movieList.moviesToShow.forEach {
+                if(it.id==movieid){
+                    return it
+                }
+            }
+        }
+        return null
     }
 }

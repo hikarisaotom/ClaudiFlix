@@ -11,11 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Clauditter">
         <activity
-            android:name=".YoutubeTrailersActivity"
+            android:name=".Activity_YoutubeTrailers"
             android:label="@string/title_activity_youtube_trailers"
             android:theme="@style/Theme.Clauditter.NoActionBar"></activity>
         <activity
-            android:name=".MovieDetailsActivity"
+            android:name=".Activity_MovieDetails"
             android:label="@string/title_activity_movie_details"
             android:theme="@style/Theme.Clauditter.NoActionBar" />
         <activity

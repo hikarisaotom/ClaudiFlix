@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clauditter.ViewModelLogIn
+import com.example.clauditter.ViewModel_LogIn
 import com.example.clauditter.R
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
@@ -27,7 +27,7 @@ private const val TAG = "fragmentHome"
 class HomeFragment : Fragment() {
 
 
-    private val logInModel: ViewModelLogIn by activityViewModels()
+    private val logInModel: ViewModel_LogIn by activityViewModels()
 
     /**RECYCLER ADAPTER */
     private lateinit var previewAdapter: CategoriasHomeAdapter
