@@ -3,6 +3,7 @@
     package="com.example.clauditter">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Clauditter">
         <activity
+            android:name=".MainActivity2"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.Clauditter.NoActionBar"></activity>
+        <activity
             android:name=".Activity_YoutubeTrailers"
             android:label="@string/title_activity_youtube_trailers"
-            android:theme="@style/Theme.Clauditter.NoActionBar"></activity>
+            android:theme="@style/Theme.Clauditter.NoActionBar" />
         <activity
             android:name=".Activity_MovieDetails"
             android:label="@string/title_activity_movie_details"

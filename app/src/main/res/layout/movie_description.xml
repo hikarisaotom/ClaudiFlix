@@ -6,45 +6,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.Clauditter.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_Movie"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.Clauditter.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <ImageView
         android:id="@+id/img_vistaPelicula"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="180dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:srcCompat="@mipmap/ic_launcher_round" />
-
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerDetails"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_addRemoveFavorite" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout_Categories" />
 
     <Button
         android:id="@+id/btn_addRemoveFavorite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:text="Add to Favorite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_vistaPelicula" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_Categories"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/btn_addRemoveFavorite"
+        app:layout_constraintStart_toStartOf="@+id/btn_addRemoveFavorite"
+        app:layout_constraintTop_toBottomOf="@+id/btn_addRemoveFavorite"
+        app:tabSelectedTextColor="@color/teal_700">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_Info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:icon="@mipmap/information"
+            android:text="info"
+            android:visibility="visible" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_cast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:icon="@mipmap/cast"
+            android:text="Cast"
+            android:visibility="visible" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:icon="@mipmap/review"
+            android:text="Reviews"
+            android:visibility="visible" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_trailers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:text="Trailers"
+            android:visibility="visible" />
+    </com.google.android.material.tabs.TabLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

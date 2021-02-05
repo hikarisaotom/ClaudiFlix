@@ -8,12 +8,11 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_gallery">Login</string>
+    <string name="menu_slideshow">Favorites</string>
     <string name="api_key">7a30c243665f85825e8f7e6ae19711fa</string>
     <string name="yt_api_key">AIzaSyBEXcrGoHZodh95LGQJRWnelCwxOgfNvhM</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
     <string name="url_preview_img">https://image.tmdb.org/t/p/original/%1$s</string>
@@ -23,14 +22,7 @@
     <string name="removeFavorite">Add to Favorites</string>
     <string name="LoginTosee">Please Log in to access to this function </string>
 
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_youtube_trailers">YoutubeTrailersActivity</string>
+    <string name="title_activity_main2">MainActivity</string>
 
 </resources>

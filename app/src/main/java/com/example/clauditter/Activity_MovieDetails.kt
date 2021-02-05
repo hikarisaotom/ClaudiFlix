@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -28,6 +29,8 @@ class Activity_MovieDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)
+
+
         //Obteniendo valores pasados desde el fragment Home
         movie = intent.getParcelableExtra<Movie>(MOVIE_TRANSFER) as Movie
         username = intent.getStringExtra(USERNAME)
@@ -36,14 +39,25 @@ class Activity_MovieDetails : AppCompatActivity() {
         Glide.with(this)
             .load(movie.poster_path)
             .into(img_vistaPelicula)
+        //To implemet tabLayout
         viewpager = findViewById(R.id.viewPagerDetails)
+        tabLayout_Categories.setupWithViewPager(viewpager);
+      //  tabLayout_Categories.getTabAt(0)?.select()
+
         //agregando controlador al viewpager
         val pagerAdapter = PagerAdapter(supportFragmentManager, movie)
         viewpager.adapter = pagerAdapter
 
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar_Movie)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = movie.title
+
         if (flag) {
             btn_addRemoveFavorite.visibility = View.VISIBLE
+
             isAdded()
         } else {
             btn_addRemoveFavorite.visibility = View.GONE

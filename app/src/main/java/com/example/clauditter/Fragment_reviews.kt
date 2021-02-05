@@ -15,6 +15,7 @@ import com.example.clauditter.ui.clases.Review
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.android.synthetic.main.movie_description.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -51,6 +52,7 @@ class Fragment_reviews : Fragment() {
         recycler_Reviews.layoutManager = LinearLayoutManager(activity)
         recycler_Reviews.adapter = reviewAdapter
         lbl_reviewsTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.review, 0, 0, 0);
+
     }
     fun createUrl(movieId:String): String {
         val url = HttpUrl.Builder()

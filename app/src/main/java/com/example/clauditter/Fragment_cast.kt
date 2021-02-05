@@ -12,6 +12,7 @@ import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Person
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
+import kotlinx.android.synthetic.main.movie_description.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -46,6 +47,7 @@ class Fragment_cast : Fragment() {
         recyclerView_Actores.layoutManager = LinearLayoutManager(activity)
         recyclerView_Actores.adapter = castAdapter
         lbl_castTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0);
+
     }
 
 

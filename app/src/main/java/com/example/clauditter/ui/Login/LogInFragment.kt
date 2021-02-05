@@ -48,6 +48,7 @@ class LogInFragment : Fragment() {
             lblUsername.visibility = flagLogin
             btnLogIn.visibility = flagLogin
         })
+
         return root
     }
 

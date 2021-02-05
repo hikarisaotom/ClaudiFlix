@@ -9,7 +9,8 @@ import com.example.clauditter.Fragment_Trailers
 import com.example.clauditter.Fragment_cast
 import com.example.clauditter.Fragment_reviews
 import com.example.clauditter.ui.clases.Movie
-
+import kotlinx.android.synthetic.main.movie_description.*
+import kotlinx.android.synthetic.main.movie_description.*
 
 class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdapter(fm) {
     override fun getCount(): Int =4 //I only have 3 fragments to show
@@ -19,7 +20,7 @@ class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdap
         var fragmentToShow:Fragment?=null
         bundle.putParcelable(MOVIE_TRANSFER,movie)
         when(position){
-            0 ->{fragmentToShow= Fragment_Information()}
+            0 ->{ fragmentToShow= Fragment_Information()}
             1 ->{fragmentToShow= Fragment_cast()}
             2 ->{fragmentToShow= Fragment_reviews()}
             else ->{fragmentToShow= Fragment_Trailers()}

@@ -20,6 +20,7 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import kotlinx.android.synthetic.main.fragment__trailers.*
+import kotlinx.android.synthetic.main.movie_description.*
 
 class Fragment_Trailers : Fragment(),
     OnRecyclerClickListener{
@@ -53,6 +54,7 @@ class Fragment_Trailers : Fragment(),
         recycler_Trailers.layoutManager = LinearLayoutManager(activity)
         recycler_Trailers.adapter = trailerAdapter
         recycler_Trailers.addOnItemTouchListener(RecyclerItemsListeners(view.context,recycler_Trailers,this))
+
     }
 
 
