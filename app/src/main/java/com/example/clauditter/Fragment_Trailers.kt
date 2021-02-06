@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.Listeners.OnRecyclerClickListener
 import com.example.clauditter.Listeners.RecyclerItemsListeners
@@ -24,6 +26,7 @@ import kotlinx.android.synthetic.main.movie_description.*
 
 class Fragment_Trailers : Fragment(),
     OnRecyclerClickListener{
+    private val dataModel: ViewModel_MovieDetails by activityViewModels()
     /**RECYCLER ADAPTER */
     private val trailerAdapter: TrailerAdapter = TrailerAdapter(ArrayList())
 
@@ -38,11 +41,17 @@ class Fragment_Trailers : Fragment(),
     ): View? {
         // Inflate the layout for this fragment
         val root= inflater.inflate(R.layout.fragment__trailers, container, false)
-        var movieToShow = requireArguments().getParcelable<Movie>(MOVIE_TRANSFER)
 
-        /**Downloading data*/
-        val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl(movieToShow?.id.toString()))
+        if(dataModel.trailers.value!!.size<=0){
+            /**Downloading data*/
+            val client: OkHttpClient = OkHttpClient()
+            downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+        }
+
+        dataModel.trailers.observe(viewLifecycleOwner, Observer {
+            trailerAdapter.loadNewData(it)
+        })
+
         return root
     }
 
@@ -110,7 +119,8 @@ class Fragment_Trailers : Fragment(),
             val trailer = convertJSon(jsonObject.toString())
                 trailers.add(trailer!!)
         }
-        trailerAdapter.loadNewData(trailers)
+       // trailerAdapter.loadNewData(trailers)
+        dataModel.loadNewTrailers(trailers)
     }
 
     fun convertJSon(JSON: String): Trailer? {

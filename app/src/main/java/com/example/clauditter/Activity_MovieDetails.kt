@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.activityViewModels
@@ -24,7 +25,7 @@ class Activity_MovieDetails : AppCompatActivity() {
     private var flagExistInList = false
     private lateinit var movie: Movie
     private var dbMovieId:String=""
-
+    private val dataModel: ViewModel_MovieDetails by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class Activity_MovieDetails : AppCompatActivity() {
 
         //Obteniendo valores pasados desde el fragment Home
         movie = intent.getParcelableExtra<Movie>(MOVIE_TRANSFER) as Movie
+        dataModel.setMovie(movie)
         username = intent.getStringExtra(USERNAME)
         flag = intent.getBooleanExtra(IS_LOGED, false)
 
@@ -54,7 +56,6 @@ class Activity_MovieDetails : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = movie.title
-
         if (flag) {
             btn_addRemoveFavorite.visibility = View.VISIBLE
 
@@ -67,9 +68,14 @@ class Activity_MovieDetails : AppCompatActivity() {
             addRemoveFavorite()
         })
 
-
     }
-/*View Pager Methods*/
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
+    /*View Pager Methods*/
     override fun onBackPressed() {
         if (viewpager.currentItem == 0) {
             super.onBackPressed()

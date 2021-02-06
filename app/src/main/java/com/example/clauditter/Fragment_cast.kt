@@ -5,22 +5,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.adapters.CastAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Person
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
-import kotlinx.android.synthetic.main.movie_description.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 
 class Fragment_cast : Fragment() {
+
+
     /**RECYCLER ADAPTER */
     private val castAdapter: CastAdapter = CastAdapter(ArrayList())
+
+    private val dataModel: ViewModel_MovieDetails by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("FRAGMENT ","CREANDO FRAGMENTO")
@@ -32,11 +38,18 @@ class Fragment_cast : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        val root=inflater.inflate(R.layout.fragment_cast, container, false)
-        var movieToShow = requireArguments().getParcelable<Movie>(MOVIE_TRANSFER)
+        //var movieToShow = requireArguments().getParcelable<Movie>(MOVIE_TRANSFER)
 
-        /**Downloading data*/
-        val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl(movieToShow?.id.toString()))
+        if(dataModel.cast.value!!.size<=0){
+            /**Downloading data*/
+            val client: OkHttpClient = OkHttpClient()
+            downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+        }
+
+        dataModel.cast.observe(viewLifecycleOwner, Observer {
+            castAdapter.loadNewData(it)
+        })
+
         return root
     }
 
@@ -65,7 +78,6 @@ class Fragment_cast : Fragment() {
     }
 
     fun downloadData(client: OkHttpClient, url: String) {
-
         val request = Request.Builder()
             .url(url)
             .build()
@@ -110,7 +122,8 @@ class Fragment_cast : Fragment() {
                 cast.add(actor!!)
             }
         }
-        castAdapter.loadNewData(cast)
+        //castAdapter.loadNewData(cast)
+        dataModel.loadNewCast(cast)
     }
 
     fun convertJSon(JSON: String): Person? {

@@ -16,16 +16,14 @@ class PagerAdapter(fm: FragmentManager,val movie:Movie) : FragmentStatePagerAdap
     override fun getCount(): Int =4 //I only have 3 fragments to show
 
     override fun getItem(position: Int): Fragment {
-        val bundle = Bundle()
         var fragmentToShow:Fragment?=null
-        bundle.putParcelable(MOVIE_TRANSFER,movie)
-        when(position){
-            0 ->{ fragmentToShow= Fragment_Information()}
-            1 ->{fragmentToShow= Fragment_cast()}
-            2 ->{fragmentToShow= Fragment_reviews()}
-            else ->{fragmentToShow= Fragment_Trailers()}
+        fragmentToShow = when(position){
+            0 ->{ Fragment_Information() }
+            1 ->{ Fragment_cast() }
+            2 ->{ Fragment_reviews() }
+            else ->{ Fragment_Trailers() }
         }
-        fragmentToShow.setArguments(bundle)
+
         return fragmentToShow
     }
 }
