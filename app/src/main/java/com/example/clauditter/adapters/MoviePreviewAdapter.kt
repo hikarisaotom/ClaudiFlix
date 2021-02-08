@@ -57,10 +57,12 @@ private val username:String,private  val isLoged:Boolean):
             val movieItem=movies[position]
             Glide.with(holder.itemView)  //2
                 .load(movieItem.backdrop_path) //3
-                /*.centerCrop() //4
+                //.centerCrop() //4
+                .fitCenter()
                 .placeholder(R.drawable.ic_menu_camera) //5
                 .error(R.drawable.ic_menu_gallery) //6*/
-                .into(holder.thumbnail) //8
+                .into(holder.thumbnail) //
+
         }
 
     }

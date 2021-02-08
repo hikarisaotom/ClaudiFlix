@@ -70,9 +70,8 @@ dependencies {
     //okhttp
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
 
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
-    kapt 'com.github.bumptech.glide:compiler:4.4.0'
-
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
     //viewPager
     implementation 'androidx.viewpager:viewpager:1.0.0'
 

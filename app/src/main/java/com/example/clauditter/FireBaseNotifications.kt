@@ -6,9 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.transition.Transition
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
 import com.example.clauditter.adapters.IS_LOGED
 import com.example.clauditter.adapters.USERNAME
 import com.example.clauditter.ui.clases.Movie
@@ -53,21 +58,42 @@ class NotificationHelper(){
         intent.putExtra(MOVIE_TRANSFER,movieToShow)
         intent.putExtra(USERNAME,user)
         intent.putExtra(IS_LOGED,isLoged)
-
          val pendingIntent:PendingIntent=PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder:NotificationCompat.Builder =
-            NotificationCompat.Builder(context,CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_menu_gallery)
-                .setTicker("$user this could be interesting for you") //mesage when app is comming
-                .setContentTitle("Today`s Movie for you $user")
-                .setSubText("SUBTEXTO")
-                .setContentText("Movie: ${movieToShow.title}")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setWhen(System.currentTimeMillis())
-                .setContentIntent(pendingIntent)
-        val notificatormanager:NotificationManagerCompat=NotificationManagerCompat.from(context)
-        notificatormanager.notify(1,builder.build())
+
+var image:Bitmap?=null
+        Glide.with(context)
+            .asBitmap()
+            .load(movieToShow.backdrop_path)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                ) {
+                    image=resource
+                    val builder:NotificationCompat.Builder =
+                        NotificationCompat.Builder(context,CHANNEL_ID)
+                            .setTicker("$user this could be interesting for you") //mesage when app is comming
+                            .setContentTitle("Today`s Movie for you $user")
+                            .setContentText("Movie: ${movieToShow.title}")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setSmallIcon(R.mipmap.cast)
+                            .setContentIntent(pendingIntent)
+                            .setStyle(
+                                NotificationCompat.BigPictureStyle()
+                                    .bigPicture(image)
+                            )
+                    val notificatormanager:NotificationManagerCompat=NotificationManagerCompat.from(context)
+                    notificatormanager.notify(1,builder.build())
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
+
+
+
+
+
+
 
     }
 

@@ -13,11 +13,12 @@ import kotlinx.android.synthetic.main.movie_description.*
 
 
 class Fragment_Information : Fragment() {
+    private val dataModel: ViewModel_MovieDetails by activityViewModels()
     private var movie:Movie?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movie=arguments?.getParcelable<Movie>(MOVIE_TRANSFER)
+        movie=dataModel.movie.value
     }
 
     override fun onCreateView(
