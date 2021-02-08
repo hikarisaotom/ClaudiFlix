@@ -58,8 +58,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+
 
 
         //PARA JSON
@@ -80,5 +79,9 @@ dependencies {
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 //para firebase
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
+   // implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics'
 }
 

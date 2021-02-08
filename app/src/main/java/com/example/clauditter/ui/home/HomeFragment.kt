@@ -1,5 +1,8 @@
 package com.example.clauditter.ui.home
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,8 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clauditter.ViewModel_LogIn
-import com.example.clauditter.R
+import com.example.clauditter.*
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import kotlin.random.Random
 
 private const val TAG = "fragmentHome"
 
@@ -58,13 +61,32 @@ class HomeFragment : Fragment() {
                 downloadData(client, createUrl(i), i)
                 i++
             }
+
+
         }
 
         logInModel.movieList.observe(viewLifecycleOwner, Observer {
             previewAdapter.loadNewData(it)
-        })
-
-
+            if(it.size>=4){
+                //creating notification channel, this is necesarry for android Oreo and above
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+                    val channel=NotificationChannel(CHANNEL_ID, CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT)
+                    channel.description= CHANNEL_DESCRIPTION
+                    val manager=requireActivity().applicationContext.getSystemService(NotificationManager::class.java)
+                    manager.createNotificationChannel(channel)
+                }
+                Toast.makeText(activity,"entra?",Toast.LENGTH_SHORT).show()
+                // randomly recommendation ofa movie
+                val posList = (0..(it.size-1)).random()// getting a position of a list
+                val subList =(logInModel.movieList.value)!!.get(posList).moviesToShow
+                val posMovie = (0..(subList.size-1)).random() //getting a position of a movie
+                val movieToShow = subList.get(posMovie)
+                NotificationHelper().displayNotification(movieToShow,
+                    logInModel.user.value!!,
+                    logInModel.flag.value!!,
+                    requireActivity().applicationContext)
+            }
+           })
         return root
     }
 
