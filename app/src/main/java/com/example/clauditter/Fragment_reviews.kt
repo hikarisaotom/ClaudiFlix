@@ -6,25 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.Listeners.OnDownloadComplete
-import com.example.clauditter.adapters.CastAdapter
 import com.example.clauditter.adapters.ReviewAdapter
 import com.example.clauditter.ui.clases.AuthorDetails
-import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Review
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_cast.*
 import kotlinx.android.synthetic.main.fragment_reviews.*
-import kotlinx.android.synthetic.main.movie_description.*
-import okhttp3.*
 import org.json.JSONObject
-import java.io.IOException
 
 
 class Fragment_reviews : Fragment(),
@@ -63,6 +56,28 @@ OnDownloadComplete{
         dataModel.reviews.observe(viewLifecycleOwner, Observer {
             reviewAdapter.loadNewData(it)
         })
+
+        dataModel.reviewsLoaded.observe(viewLifecycleOwner, Observer {
+            if(it){
+                progressB_reviews.visibility=View.GONE
+                if(dataModel.reviews.value!!.isEmpty()){//the request was made, but there aren`t actors to show
+                    recycler_Reviews.visibility=View.GONE
+                    val sad = 0x1F61E
+                    val verySad = 0x1F622
+                    val shame = 0x1F613
+                    val emoji1 = String(Character.toChars(sad))
+                    val emoji2 = String(Character.toChars(verySad))
+                    val emoji3 = String(Character.toChars(shame))
+                    lbl_reviewsTitle.text= "\n \n \n \nWe have bad news!!! $emoji1 $emoji2 $emoji3 \n \n" +
+                            "There are no reviews available for this movie yet"
+                }else{
+                    lbl_reviewsTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.review, 0, 0, 0);
+                    recycler_Reviews.visibility=View.VISIBLE
+                }
+            }else{
+                recycler_Reviews.visibility=View.INVISIBLE
+            }
+        })
         return root
     }
 
@@ -70,7 +85,6 @@ OnDownloadComplete{
         super.onViewCreated(view, savedInstanceState)
         recycler_Reviews.layoutManager = LinearLayoutManager(activity)
         recycler_Reviews.adapter = reviewAdapter
-        lbl_reviewsTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.review, 0, 0, 0);
 
     }
 

@@ -5,22 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.adapters.CastAdapter
-import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Person
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment__trailers.*
 import kotlinx.android.synthetic.main.fragment_cast.*
-import okhttp3.*
 import org.json.JSONObject
-import java.io.IOException
 
 
 class Fragment_cast : Fragment(),
@@ -42,7 +39,7 @@ OnDownloadComplete{
         savedInstanceState: Bundle?
     ): View? {
        val root=inflater.inflate(R.layout.fragment_cast, container, false)
-        //var movieToShow = requireArguments().getParcelable<Movie>(MOVIE_TRANSFER)
+
 
         if(dataModel.cast.value!!.size<=0){
             /**Downloading data*/
@@ -52,6 +49,28 @@ OnDownloadComplete{
             datos.putString(URL_DOWNLOAD,url)
             funciones.downloadData(datos,this)
         }
+        dataModel.castLoaded.observe(viewLifecycleOwner, Observer {
+                if(it){
+                    progressB_cast.visibility=View.GONE
+                    if(dataModel.cast.value!!.isEmpty()){//the request was made, but there aren`t actors to show
+                        recyclerView_Actores.visibility=View.GONE
+                        val sad = 0x1F61E
+                        val verySad = 0x1F622
+                        val shame = 0x1F613
+                        val emoji1 = String(Character.toChars(sad))
+                        val emoji2 = String(Character.toChars(verySad))
+                        val emoji3 = String(Character.toChars(shame))
+                        lbl_castTitle.text= "\n \n \n \nWe have bad news!!! $emoji1 $emoji2 $emoji3 \n \n" +
+                                "There are no information about the cast for this movie "
+
+                    }else{
+                        lbl_castTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0);
+                        recyclerView_Actores.visibility=View.VISIBLE
+                    }
+                }else{
+                    recyclerView_Actores.visibility=View.INVISIBLE
+                }
+        })
 
         dataModel.cast.observe(viewLifecycleOwner, Observer {
             castAdapter.loadNewData(it)
@@ -66,8 +85,6 @@ OnDownloadComplete{
         super.onViewCreated(view, savedInstanceState)
         recyclerView_Actores.layoutManager = LinearLayoutManager(activity)
         recyclerView_Actores.adapter = castAdapter
-        lbl_castTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0);
-
     }
 
 

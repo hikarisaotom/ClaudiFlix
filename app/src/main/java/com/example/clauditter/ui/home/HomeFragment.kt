@@ -4,10 +4,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -30,23 +32,17 @@ private const val TAG = "fragmentHome"
 private const val INDEX = "index"
 const val JSON = "JSON"
 const val URL_DOWNLOAD = "JSON"
-
+ val listToDomwload = arrayListOf<String>( "Now Playing", "Popular", "Top Rated", "Upcoming")
+val fields = arrayListOf<String>( "now_playing", "popular","top_rated","upcoming")
 
 class HomeFragment : Fragment(),OnDownloadComplete{
 
     private val logInModel: ViewModel_LogIn by activityViewModels()
-
-    /**RECYCLER ADAPTER */
     private lateinit var previewAdapter: CategoriasHomeAdapter
-
-    /**Listas de parametros y nombres*/
-    val listToDomwload = arrayListOf<String>( "Now Playing", "Popular", "Top Rated", "Upcoming")
-    val fields = arrayListOf<String>( "now_playing", "popular","top_rated","upcoming")
     var listMoviesFull = ArrayList<MovieList>()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         val root = inflater.inflate(R.layout.fragment_home, container, false)
@@ -71,25 +67,14 @@ class HomeFragment : Fragment(),OnDownloadComplete{
             }
         }
 
-        logInModel.movieList.observe(viewLifecycleOwner, Observer {
-            previewAdapter.loadNewData(it)
-            if(it.size>=4){
-                //creating notification channel, this is necesarry for android Oreo and above
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-                    val channel=NotificationChannel(CHANNEL_ID, CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT)
-                    channel.description= CHANNEL_DESCRIPTION
-                    val manager=requireActivity().applicationContext.getSystemService(NotificationManager::class.java)
-                    manager.createNotificationChannel(channel)
-                }
-
-                // randomly recommendation of a movie
-                val posList = (0..(it.size-1)).random()// getting a position of a list
-                val subList =(logInModel.movieList.value)!!.get(posList).moviesToShow
-                val posMovie = (0..(subList.size-1)).random() //getting a position of a movie
-                val movieToShow = subList.get(posMovie)
-                NotificationHelper().displayNotification(movieToShow,
-                    logInModel.user.value!!, logInModel.flag.value!!, requireActivity().applicationContext)
-            }
+        logInModel.isFull.observe(viewLifecycleOwner, Observer {
+                    if(it) {
+                        progresB_home.visibility = View.GONE
+                        recyclerView_CategoriasHome.visibility=View.VISIBLE
+                        sendNotification()
+                    }else{
+                        recyclerView_CategoriasHome.visibility=View.INVISIBLE
+                    }
            })
 
         return root
@@ -97,11 +82,44 @@ class HomeFragment : Fragment(),OnDownloadComplete{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        logInModel.movieList.observe(viewLifecycleOwner, Observer {
+            previewAdapter.loadNewData(it)
+        })
         recyclerView_CategoriasHome.layoutManager = LinearLayoutManager(activity)
         recyclerView_CategoriasHome.adapter = previewAdapter
+
     }
 
 
+    private fun sendNotification(){
+        //creating notification channel, this is necesarry for android Oreo and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = CHANNEL_DESCRIPTION
+            val manager =
+                requireActivity().applicationContext.getSystemService(
+                    NotificationManager::class.java
+                )
+            manager.createNotificationChannel(channel)
+        }
+
+        // randomly recommendation of a movie
+        val posList = (0..(fields.size-1)).random()// getting a position of a list
+        val subList = (logInModel.movieList.value)!!.get(posList).moviesToShow
+        val posMovie =
+            (0..(subList.size - 1)).random() //getting a position of a movie
+        val movieToShow = subList.get(posMovie)
+        NotificationHelper().displayNotification(
+            movieToShow,
+            logInModel.user.value!!,
+            logInModel.flag.value!!,
+            requireActivity().applicationContext
+        )
+    }
 
     override fun parseJson(datos:Bundle) {
         val movieList = ArrayList<Movie>()

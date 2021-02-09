@@ -2,7 +2,6 @@ package com.example.clauditter
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,16 +15,13 @@ import com.example.clauditter.Listeners.OnRecyclerClickListener
 import com.example.clauditter.Listeners.RecyclerItemsListeners
 import com.example.clauditter.adapters.TRAILER_KEY
 import com.example.clauditter.adapters.TrailerAdapter
-import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Trailer
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
-import okhttp3.*
 import org.json.JSONObject
-import java.io.IOException
 import kotlinx.android.synthetic.main.fragment__trailers.*
-import kotlinx.android.synthetic.main.movie_description.*
+
 
 class Fragment_Trailers : Fragment(),
     OnRecyclerClickListener,
@@ -60,6 +56,29 @@ OnDownloadComplete{
             trailerAdapter.loadNewData(it)
         })
 
+        dataModel.trailersLoaded.observe(viewLifecycleOwner, Observer {
+            if(it){
+                progressB_trailers.visibility=View.GONE
+                if(dataModel.trailers.value!!.isEmpty()){//the request was made, but there aren`t actors to show
+                    recycler_Trailers.visibility=View.GONE
+                    val sad = 0x1F61E
+                    val verySad = 0x1F622
+                    val shame = 0x1F613
+                    val emoji1 = String(Character.toChars(sad))
+                    val emoji2 = String(Character.toChars(verySad))
+                    val emoji3 = String(Character.toChars(shame))
+                    lbl_trailers.text= "\n \n \n \nWe have bad news!!! $emoji1 $emoji2 $emoji3 \n \n" +
+                            "There are no trailers  for this movie "
+
+                }else{
+                    lbl_trailers.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0)
+                    recycler_Trailers.visibility=View.VISIBLE
+                }
+            }else{
+                recycler_Trailers.visibility=View.INVISIBLE
+            }
+        })
+
         return root
     }
 
@@ -67,11 +86,9 @@ OnDownloadComplete{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lbl_trailers.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0)
         recycler_Trailers.layoutManager = LinearLayoutManager(activity)
         recycler_Trailers.adapter = trailerAdapter
         recycler_Trailers.addOnItemTouchListener(RecyclerItemsListeners(view.context,recycler_Trailers,this))
-
     }
 
 
