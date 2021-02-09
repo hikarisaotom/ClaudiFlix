@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.example.clauditter.ui.clases.Movie
 import kotlinx.android.synthetic.main.fragment_information.*
-import kotlinx.android.synthetic.main.movie_description.*
+
 
 
 class Fragment_Information : Fragment() {

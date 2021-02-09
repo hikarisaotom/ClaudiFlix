@@ -4,14 +4,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -23,10 +20,9 @@ import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_home.*
-import okhttp3.*
+
 import org.json.JSONObject
-import java.io.IOException
-import kotlin.random.Random
+
 
 private const val TAG = "fragmentHome"
 private const val INDEX = "index"

@@ -62,7 +62,6 @@ OnDownloadComplete{
                         val emoji3 = String(Character.toChars(shame))
                         lbl_castTitle.text= "\n \n \n \nWe have bad news!!! $emoji1 $emoji2 $emoji3 \n \n" +
                                 "There are no information about the cast for this movie "
-
                     }else{
                         lbl_castTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0);
                         recyclerView_Actores.visibility=View.VISIBLE
