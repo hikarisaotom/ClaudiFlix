@@ -24,7 +24,7 @@ class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
     val thumbnail: ImageView =view.findViewById(R.id.img_preview)
 }
 class MoviePreviewAdapter(private var movies:ArrayList<Movie>,
-private val username:String,private  val isLoged:Boolean):
+private val username:String,private  val isLoged:Boolean,val tag:String):
     RecyclerView.Adapter<MoviePreviewHolder>(),
     OnRecyclerClickListener {
     private val TAG="MoviePreviewAdapter"

@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.widget.AbsListView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clauditter.MainActivity
-import com.example.clauditter.ui.home.HomeFragment
+import com.example.clauditter.adapters.MoviePreviewAdapter
+import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
-import java.lang.String
-import java.net.URL
+import com.google.gson.Gson
+import org.json.JSONObject
+
 
 
 class RecyclerItemsListeners
@@ -49,12 +50,12 @@ class RecyclerItemsListeners
 
 
 //FOR PAGINATION
-class RecyclerScrollListener:RecyclerView.OnScrollListener(),OnDownloadComplete{
+class RecyclerScrollListener(val previewAdapter:MoviePreviewAdapter):RecyclerView.OnScrollListener(),OnDownloadComplete{
     var loading = true
     var pastVisiblesItems = 0
     var visibleItemCount:Int = 0
     var totalItemCount:Int = 0
-    var page:Int = 0
+    var page:Int = 2
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy);
@@ -65,22 +66,48 @@ class RecyclerScrollListener:RecyclerView.OnScrollListener(),OnDownloadComplete{
             if (loading) {
                 if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
                     loading = false
-                    page=page++
                     loading = true
-                    val url="https://api.themoviedb.org/3/movie/550?api_key=7a30c243665f85825e8f7e6ae19711fa"
-                    var bundle=Bundle()
-                    bundle.putString(URL_DOWNLOAD,url)
-                    MainActivity().downloadData(bundle,this)
+                    val funciones=MainActivity()
+                    val pathSegment=funciones.createUrl("movie/${previewAdapter.tag}",page.toString())
+                    Toast.makeText(recyclerView.context,"Downloading page $page",Toast.LENGTH_SHORT).show()
+                    var datos=Bundle()
+                    datos.putString(URL_DOWNLOAD,pathSegment)
+                    funciones.downloadData(datos,this)
+                    page += 1
                 }
             }
         }
 
     }
 
-    override fun parseJson(data:Bundle) {
-        Log.d("FUNCIONA","${data.getString(JSON)}")
+    override fun parseJson(datos:Bundle) {
+        var listMoviesFull = ArrayList<Movie>()
+        val movieList = ArrayList<Movie>()
+        val jsonData = JSONObject(datos.getString(JSON))
+        val itemArray = jsonData.getJSONArray("results")
+        for (i in 0 until itemArray.length()) {
+            val jsonObject = itemArray.getJSONObject(i)
+            val movie = convertJSon(jsonObject.toString())
+            val x = movie?.backdrop_path
+            val y = movie?.poster_path
+            if (x != null || y != null) {
+                movie?.backdrop_path = "https://image.tmdb.org/t/p/w500/$y"
+                movie.poster_path = "https://image.tmdb.org/t/p/original/$x"
+                movieList.add(movie!!)
+            }
+        }
+             previewAdapter.addNewMovies(movieList)
+
+        }
+
+
+    fun convertJSon(JSON: kotlin.String): Movie? {
+        val gson = Gson()
+        val movie: Movie = gson.fromJson(JSON, Movie::class.java)
+        return movie
     }
 }
+
 
 
 

@@ -50,8 +50,7 @@ private val username:String,private val flag:Boolean):
             val list=ListOfLists[position]
             holder.titleList.text=list.title
             /**RECYCLER ADAPTER */
-            /**RECYCLER ADAPTER */
-            val previewAdapter=MoviePreviewAdapter(ArrayList(),username,flag)
+            val previewAdapter=MoviePreviewAdapter(ArrayList(),username,flag,ListOfLists[position].tag)
             val  horizontalLayout = LinearLayoutManager(
                 null,
                 LinearLayoutManager.HORIZONTAL,
@@ -61,29 +60,7 @@ private val username:String,private val flag:Boolean):
             holder.recyclerMovies.adapter=previewAdapter
             //agregamos las acciones de cuando se le de click
             holder.recyclerMovies.addOnItemTouchListener(RecyclerItemsListeners(holder.context,holder.recyclerMovies,previewAdapter))
-
-
-            holder.recyclerMovies.addOnScrollListener(RecyclerScrollListener())
+            holder.recyclerMovies.addOnScrollListener(RecyclerScrollListener(previewAdapter))
             previewAdapter.loadNewData(list.moviesToShow)
         }
 }
-/*object :
-    RecyclerView.OnScrollListener() {
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-        Log.d("entra","entra $dx dy $dy")
-        if (dx > 0) { //check for scroll down
-            visibleItemCount = horizontalLayout!!.childCount
-            totalItemCount = horizontalLayout!!.itemCount
-            pastVisiblesItems = horizontalLayout!!.findFirstVisibleItemPosition()
-            if (loading) {
-                if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
-                    loading = false
-                    Log.v("...", "Last Item Wow !")
-                    Toast.makeText(holder.context,"ultimo",Toast.LENGTH_SHORT).show()
-                    // Do pagination.. i.e. fetch new data
-                    loading = true
-                }
-            }
-        }
-    }
-}*/

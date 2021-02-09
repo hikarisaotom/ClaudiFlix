@@ -118,7 +118,8 @@ class HomeFragment : Fragment(),OnDownloadComplete{
                 movieList.add(movie!!)
             }
         }
-        val newListCategory = MovieList(listToDomwload[datos.getInt(INDEX)], movieList)
+        val pos=datos.getInt(INDEX)
+        val newListCategory = MovieList(listToDomwload[pos], movieList,fields[pos].toString())
         listMoviesFull.add(newListCategory)
         if (listMoviesFull.size>=2) {
             // previewAdapter.loadNewData(listMoviesFull)
