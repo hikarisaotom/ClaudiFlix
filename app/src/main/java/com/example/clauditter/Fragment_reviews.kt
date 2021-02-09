@@ -10,11 +10,14 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.adapters.CastAdapter
 import com.example.clauditter.adapters.ReviewAdapter
 import com.example.clauditter.ui.clases.AuthorDetails
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Review
+import com.example.clauditter.ui.home.JSON
+import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
 import kotlinx.android.synthetic.main.fragment_reviews.*
@@ -24,7 +27,8 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class Fragment_reviews : Fragment() {
+class Fragment_reviews : Fragment(),
+OnDownloadComplete{
     private val dataModel: ViewModel_MovieDetails by activityViewModels()
     /**RECYCLER ADAPTER */
     private val reviewAdapter: ReviewAdapter = ReviewAdapter(ArrayList())
@@ -32,8 +36,13 @@ class Fragment_reviews : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /**Downloading data*/
-        val client: OkHttpClient = OkHttpClient()
-        downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+        val funciones=MainActivity()
+
+        val url=funciones.createUrl("movie/${dataModel.movie.value?.id.toString()}/reviews",null)
+
+        val datos=Bundle()
+        datos.putString(URL_DOWNLOAD,url)
+        funciones.downloadData(datos,this)
 
     }
 
@@ -44,8 +53,11 @@ class Fragment_reviews : Fragment() {
         val root=inflater.inflate(R.layout.fragment_reviews, container, false)
         if(dataModel.reviews.value!!.size<=0){
             /**Downloading data*/
-            val client: OkHttpClient = OkHttpClient()
-            downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+            val funciones=MainActivity()
+            val url=funciones.createUrl("movie/${dataModel.movie.value?.id.toString()}/reviews",null)
+            val datos=Bundle()
+            datos.putString(URL_DOWNLOAD,url)
+            funciones.downloadData(datos,this)
         }
 
         dataModel.reviews.observe(viewLifecycleOwner, Observer {
@@ -61,52 +73,11 @@ class Fragment_reviews : Fragment() {
         lbl_reviewsTitle.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.review, 0, 0, 0);
 
     }
-    fun createUrl(movieId:String): String {
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("api.themoviedb.org")
-            .addPathSegment("3")
-            .addPathSegment("movie")
-            .addPathSegment(movieId.toString())
-            .addPathSegment("reviews")
-            .addQueryParameter("api_key", getString(R.string.api_key))
-            .build()
-        return url.toString()
-    }
 
-    fun downloadData(client: OkHttpClient, url: String) {
-        Log.d("URL ",url)
-        val request = Request.Builder()
-            .url(url)
-            .build()
-        //With enqueue we run the call in a background thread
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(
-                call: Call,
-                e: IOException
-            ) {//it is called when a failure happends
-                Log.d("TAG", "A failure has ocurred on the okHttp request")
-                //  e.printStackTrace()
-            }
 
-            override fun onResponse(
-                call: Call,
-                response: Response
-            ) {//it is called when we get any response from te app
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    var rawData: String = response.body!!.string()
-                    activity?.runOnUiThread {
-                        parseJson(rawData)
-                    }
-                }
-            }
-        })
-    }
-
-    fun parseJson(JSON: String) {
+    override fun parseJson(datos:Bundle) {
         val reviews = ArrayList<Review>()
-        val jsonData = JSONObject(JSON)
+        val jsonData = JSONObject(datos.getString(JSON))
         val itemArray = jsonData.getJSONArray("results")
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)

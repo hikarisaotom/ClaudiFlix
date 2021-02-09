@@ -15,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.*
+import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.adapters.CategoriasHomeAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.MovieList
@@ -26,9 +27,12 @@ import java.io.IOException
 import kotlin.random.Random
 
 private const val TAG = "fragmentHome"
+private const val INDEX = "index"
+const val JSON = "JSON"
+const val URL_DOWNLOAD = "JSON"
 
-class HomeFragment : Fragment() {
 
+class HomeFragment : Fragment(),OnDownloadComplete{
 
     private val logInModel: ViewModel_LogIn by activityViewModels()
 
@@ -54,15 +58,17 @@ class HomeFragment : Fragment() {
         })
 
        if(logInModel.movieListIsLoaded()){//downloading new data
-           Toast.makeText(activity,"downloading new data",Toast.LENGTH_LONG).show()
             var i = 0
             while (i < listToDomwload.size) {
-                val client: OkHttpClient = OkHttpClient()
-                downloadData(client, createUrl(i), i)
+                val funciones=MainActivity()
+                val pathSegment=funciones.createUrl("movie/${fields[i].toString()}","1")
+                Log.d("url_ ","$pathSegment")
+                var datos=Bundle()
+                datos.putString(URL_DOWNLOAD,pathSegment)
+                datos.putInt(INDEX,i)
+               funciones.downloadData(datos,this)
                 i++
             }
-
-
         }
 
         logInModel.movieList.observe(viewLifecycleOwner, Observer {
@@ -75,18 +81,17 @@ class HomeFragment : Fragment() {
                     val manager=requireActivity().applicationContext.getSystemService(NotificationManager::class.java)
                     manager.createNotificationChannel(channel)
                 }
-                Toast.makeText(activity,"entra?",Toast.LENGTH_SHORT).show()
-                // randomly recommendation ofa movie
+
+                // randomly recommendation of a movie
                 val posList = (0..(it.size-1)).random()// getting a position of a list
                 val subList =(logInModel.movieList.value)!!.get(posList).moviesToShow
                 val posMovie = (0..(subList.size-1)).random() //getting a position of a movie
                 val movieToShow = subList.get(posMovie)
                 NotificationHelper().displayNotification(movieToShow,
-                    logInModel.user.value!!,
-                    logInModel.flag.value!!,
-                    requireActivity().applicationContext)
+                    logInModel.user.value!!, logInModel.flag.value!!, requireActivity().applicationContext)
             }
            })
+
         return root
     }
 
@@ -97,52 +102,10 @@ class HomeFragment : Fragment() {
     }
 
 
-    fun createUrl(index: Int): String {
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("api.themoviedb.org")
-            .addPathSegment("3")
-            .addPathSegment("movie")
-            .addPathSegment(fields[index])
-            .addQueryParameter("api_key", getString(R.string.api_key))
-            .build()
 
-        return url.toString()
-    }
-
-    fun downloadData(client: OkHttpClient, url: String, index: Int) {
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
-        //With enqueue we run the call in a background thread
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(
-                call: Call,
-                e: IOException
-            ) {//it is called when a failure happends
-                Log.d(TAG, "A failure has ocurred on the okHttp request")
-                //  e.printStackTrace()
-            }
-
-            override fun onResponse(
-                call: Call,
-                response: Response
-            ) {//it is called when we get any response from te app
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    var rawData: String = response.body!!.string()
-                    activity?.runOnUiThread {
-                        parseJson(rawData, index)
-                    }
-                }
-            }
-        })
-    }
-
-    fun parseJson(JSON: String, index: Int) {
+    override fun parseJson(datos:Bundle) {
         val movieList = ArrayList<Movie>()
-        val jsonData = JSONObject(JSON)
+        val jsonData = JSONObject(datos.getString(JSON))
         val itemArray = jsonData.getJSONArray("results")
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)
@@ -155,10 +118,10 @@ class HomeFragment : Fragment() {
                 movieList.add(movie!!)
             }
         }
-        val newListCategory = MovieList(listToDomwload[index], movieList)
+        val newListCategory = MovieList(listToDomwload[datos.getInt(INDEX)], movieList)
         listMoviesFull.add(newListCategory)
         if (listMoviesFull.size>=2) {
-           // previewAdapter.loadNewData(listMoviesFull)
+            // previewAdapter.loadNewData(listMoviesFull)
             logInModel.loadMovieList(listMoviesFull)
         }
     }

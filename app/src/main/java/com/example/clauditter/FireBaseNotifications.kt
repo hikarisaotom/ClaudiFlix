@@ -89,12 +89,6 @@ var image:Bitmap?=null
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
 
-
-
-
-
-
-
     }
 
 

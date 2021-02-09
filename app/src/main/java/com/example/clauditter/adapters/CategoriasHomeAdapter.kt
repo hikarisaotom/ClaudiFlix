@@ -1,14 +1,17 @@
 package com.example.clauditter.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clauditter.Listeners.RecyclerItemsListeners
+import com.example.clauditter.Listeners.RecyclerScrollListener
 import com.example.clauditter.R
 import com.example.clauditter.ui.clases.MovieList
-import com.example.clauditter.Listeners.RecyclerItemsListeners
 
 
 class MovieViewHolder(view: View): RecyclerView.ViewHolder(view){
@@ -41,13 +44,14 @@ private val username:String,private val flag:Boolean):
         return if(ListOfLists.isNotEmpty())ListOfLists[position] else null
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
         if(ListOfLists.isEmpty()){
         }else{
             val list=ListOfLists[position]
             holder.titleList.text=list.title
             /**RECYCLER ADAPTER */
-             val previewAdapter=MoviePreviewAdapter(ArrayList(),username,flag)
+            /**RECYCLER ADAPTER */
+            val previewAdapter=MoviePreviewAdapter(ArrayList(),username,flag)
             val  horizontalLayout = LinearLayoutManager(
                 null,
                 LinearLayoutManager.HORIZONTAL,
@@ -57,8 +61,29 @@ private val username:String,private val flag:Boolean):
             holder.recyclerMovies.adapter=previewAdapter
             //agregamos las acciones de cuando se le de click
             holder.recyclerMovies.addOnItemTouchListener(RecyclerItemsListeners(holder.context,holder.recyclerMovies,previewAdapter))
+
+
+            holder.recyclerMovies.addOnScrollListener(RecyclerScrollListener())
             previewAdapter.loadNewData(list.moviesToShow)
         }
-
-    }
 }
+/*object :
+    RecyclerView.OnScrollListener() {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        Log.d("entra","entra $dx dy $dy")
+        if (dx > 0) { //check for scroll down
+            visibleItemCount = horizontalLayout!!.childCount
+            totalItemCount = horizontalLayout!!.itemCount
+            pastVisiblesItems = horizontalLayout!!.findFirstVisibleItemPosition()
+            if (loading) {
+                if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                    loading = false
+                    Log.v("...", "Last Item Wow !")
+                    Toast.makeText(holder.context,"ultimo",Toast.LENGTH_SHORT).show()
+                    // Do pagination.. i.e. fetch new data
+                    loading = true
+                }
+            }
+        }
+    }
+}*/

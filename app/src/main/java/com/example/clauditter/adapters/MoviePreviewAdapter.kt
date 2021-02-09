@@ -23,7 +23,7 @@ const val IS_LOGED="IS_LOGED"
 class MoviePreviewHolder(view: View): RecyclerView.ViewHolder(view){
     val thumbnail: ImageView =view.findViewById(R.id.img_preview)
 }
-class MoviePreviewAdapter(private var movies:List<Movie>,
+class MoviePreviewAdapter(private var movies:ArrayList<Movie>,
 private val username:String,private  val isLoged:Boolean):
     RecyclerView.Adapter<MoviePreviewHolder>(),
     OnRecyclerClickListener {
@@ -40,8 +40,15 @@ private val username:String,private  val isLoged:Boolean):
         return if(movies.isNotEmpty()) movies.size else 1
     }
 
-    fun loadNewData(newMovies:List<Movie>){
+    fun loadNewData(newMovies:ArrayList<Movie>){
         movies=newMovies
+        notifyDataSetChanged()
+    }
+
+    fun addNewMovies(newMovies:ArrayList<Movie>){
+        newMovies.forEach {
+          movies.add(it)
+        }
         notifyDataSetChanged()
     }
 

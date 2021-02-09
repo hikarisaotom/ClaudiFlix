@@ -10,9 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.adapters.CastAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Person
+import com.example.clauditter.ui.home.JSON
+import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_cast.*
 import okhttp3.*
@@ -20,7 +23,8 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class Fragment_cast : Fragment() {
+class Fragment_cast : Fragment(),
+OnDownloadComplete{
 
 
     /**RECYCLER ADAPTER */
@@ -42,8 +46,11 @@ class Fragment_cast : Fragment() {
 
         if(dataModel.cast.value!!.size<=0){
             /**Downloading data*/
-            val client: OkHttpClient = OkHttpClient()
-            downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+            val funciones=MainActivity()
+            val url=funciones.createUrl("movie/${dataModel.movie.value?.id.toString()}/credits",null)
+            val datos=Bundle()
+            datos.putString(URL_DOWNLOAD,url)
+            funciones.downloadData(datos,this)
         }
 
         dataModel.cast.observe(viewLifecycleOwner, Observer {
@@ -64,51 +71,9 @@ class Fragment_cast : Fragment() {
     }
 
 
-    fun createUrl(movieId:String): String {
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("api.themoviedb.org")
-            .addPathSegment("3")
-            .addPathSegment("movie")
-            .addPathSegment(movieId.toString())
-            .addPathSegment("credits")
-            .addQueryParameter("api_key", getString(R.string.api_key))
-            .build()
-        return url.toString()
-    }
-
-    fun downloadData(client: OkHttpClient, url: String) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
-        //With enqueue we run the call in a background thread
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(
-                call: Call,
-                e: IOException
-            ) {//it is called when a failure happends
-                Log.d("TAG", "A failure has ocurred on the okHttp request")
-                //  e.printStackTrace()
-            }
-
-            override fun onResponse(
-                call: Call,
-                response: Response
-            ) {//it is called when we get any response from te app
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    var rawData: String = response.body!!.string()
-                    activity?.runOnUiThread {
-                        parseJson(rawData)
-                    }
-                }
-            }
-        })
-    }
-
-    fun parseJson(JSON: String) {
+    override fun parseJson(datos:Bundle) {
         val cast = ArrayList<Person>()
-        val jsonData = JSONObject(JSON)
+        val jsonData = JSONObject(datos.getString(JSON))
         val itemArray = jsonData.getJSONArray("cast")
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)

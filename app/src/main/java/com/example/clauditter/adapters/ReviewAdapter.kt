@@ -19,13 +19,15 @@ class ReviewHolder(view: View): RecyclerView.ViewHolder(view){
     val puntuation: TextView =view.findViewById(R.id.lbl_puntuation_review)
 }
 
-class ReviewAdapter(private var reviews:List<Review>):
+class ReviewAdapter(private var reviews:ArrayList<Review>):
     RecyclerView.Adapter<ReviewHolder>() {
     private val TAG="ReviewPreviewAdapter"
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.review_details,parent,false)
+
         return ReviewHolder(view)
     }
 
@@ -33,7 +35,7 @@ class ReviewAdapter(private var reviews:List<Review>):
         return if(reviews.isNotEmpty()) reviews.size else 1
     }
 
-    fun loadNewData(newReviews:List<Review>){
+    fun loadNewData(newReviews:ArrayList<Review>){
         reviews=newReviews
         notifyDataSetChanged()
     }

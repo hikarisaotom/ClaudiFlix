@@ -11,12 +11,15 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.Listeners.OnRecyclerClickListener
 import com.example.clauditter.Listeners.RecyclerItemsListeners
 import com.example.clauditter.adapters.TRAILER_KEY
 import com.example.clauditter.adapters.TrailerAdapter
 import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.clases.Trailer
+import com.example.clauditter.ui.home.JSON
+import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.gson.Gson
 import okhttp3.*
 import org.json.JSONObject
@@ -25,7 +28,8 @@ import kotlinx.android.synthetic.main.fragment__trailers.*
 import kotlinx.android.synthetic.main.movie_description.*
 
 class Fragment_Trailers : Fragment(),
-    OnRecyclerClickListener{
+    OnRecyclerClickListener,
+OnDownloadComplete{
     private val dataModel: ViewModel_MovieDetails by activityViewModels()
     /**RECYCLER ADAPTER */
     private val trailerAdapter: TrailerAdapter = TrailerAdapter(ArrayList())
@@ -44,8 +48,12 @@ class Fragment_Trailers : Fragment(),
 
         if(dataModel.trailers.value!!.size<=0){
             /**Downloading data*/
-            val client: OkHttpClient = OkHttpClient()
-            downloadData(client,createUrl(dataModel.movie.value?.id.toString()))
+            val funciones=MainActivity()
+
+            val url=funciones.createUrl("movie/${dataModel.movie.value?.id.toString()}/videos",null)
+            val datos=Bundle()
+            datos.putString(URL_DOWNLOAD,url)
+            funciones.downloadData(datos,this)
         }
 
         dataModel.trailers.observe(viewLifecycleOwner, Observer {
@@ -67,52 +75,12 @@ class Fragment_Trailers : Fragment(),
     }
 
 
-    fun createUrl(movieId:String): String {
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("api.themoviedb.org")
-            .addPathSegment("3")
-            .addPathSegment("movie")
-            .addPathSegment(movieId.toString())
-            .addPathSegment("videos")
-            .addQueryParameter("api_key", getString(R.string.api_key))
-            .build()
-        return url.toString()
-    }
 
-    fun downloadData(client: OkHttpClient, url: String) {
-        Log.d("","URL DEL TRAILER ${url}")
-        val request = Request.Builder()
-            .url(url)
-            .build()
-        //With enqueue we run the call in a background thread
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(
-                call: Call,
-                e: IOException
-            ) {//it is called when a failure happends
-                Log.d("TAG", "A failure has ocurred on the okHttp request")
-                //  e.printStackTrace()
-            }
 
-            override fun onResponse(
-                call: Call,
-                response: Response
-            ) {//it is called when we get any response from te app
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                    var rawData: String = response.body!!.string()
-                    activity?.runOnUiThread {
-                        parseJson(rawData)
-                    }
-                }
-            }
-        })
-    }
 
-    fun parseJson(JSON: String) {
+   override fun parseJson(datos:Bundle) {
         val trailers = ArrayList<Trailer>()
-        val jsonData = JSONObject(JSON)
+        val jsonData = JSONObject(datos.getString(JSON))
         val itemArray = jsonData.getJSONArray("results")
         for (i in 0 until itemArray.length()) {
             val jsonObject = itemArray.getJSONObject(i)
