@@ -13,8 +13,10 @@ import androidx.lifecycle.Observer
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clauditter.Activity_MovieDetails
+import com.example.clauditter.Listeners.OnDownloadComplete
 import com.example.clauditter.Listeners.OnRecyclerClickListener
 import com.example.clauditter.Listeners.RecyclerItemsListeners
+import com.example.clauditter.MainActivity
 import com.example.clauditter.ViewModel_LogIn
 import com.example.clauditter.R
 import com.example.clauditter.adapters.FavoritesAdapter
@@ -22,19 +24,23 @@ import com.example.clauditter.adapters.IS_LOGED
 import com.example.clauditter.adapters.MOVIE_TRANSFER
 import com.example.clauditter.adapters.USERNAME
 import com.example.clauditter.ui.clases.Favorite
+import com.example.clauditter.ui.clases.Movie
+import com.example.clauditter.ui.home.JSON
+import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment__trailers.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import org.json.JSONObject
 
 
 class FavoritesFragment : Fragment(),
-    OnRecyclerClickListener {
+    OnRecyclerClickListener, OnDownloadComplete {
 
     private val logInModel: ViewModel_LogIn by activityViewModels()
 
     /**RECYCLER ADAPTER */
     private var favoritesAdapter: FavoritesAdapter = FavoritesAdapter(ArrayList())
-
+    private var viewToShow:View?=null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -119,16 +125,13 @@ class FavoritesFragment : Fragment(),
 
     /**Listeners for the recyclerView Items*/
     override fun onItemClick(view: View, position: Int) {
+        val funciones = MainActivity()
         val favMovie = favoritesAdapter.getFavorite(position)
-        val movie = logInModel.getMovie(favMovie?.movieid)
-        if (movie != null) {
-            Toast.makeText(view.context, " ${movie.title}", Toast.LENGTH_SHORT).show()
-            val intent = Intent(view.context, Activity_MovieDetails::class.java)
-            intent.putExtra(MOVIE_TRANSFER, movie)
-            intent.putExtra(USERNAME, logInModel.user.value)
-            intent.putExtra(IS_LOGED, logInModel.flag.value)
-            view.context.startActivity(intent)
-        }
+        viewToShow=view
+        val url = funciones.createUrl("movie/${favMovie!!.movieid}",null)
+        val datos = Bundle()
+        datos.putString(URL_DOWNLOAD, url)
+        funciones.downloadData(datos, this)
     }
 
     override fun onItemLongClick(view: View, position: Int) {
@@ -142,14 +145,64 @@ class FavoritesFragment : Fragment(),
                 db.collection("favorites").document(favMovie.id)
                     .delete()
                     .addOnSuccessListener {
-                        Toast.makeText(view.context, "${favMovie.movieTitle} deleted from  favorites", Toast.LENGTH_SHORT).show()
-                        dialog.cancel() }
-                    .addOnFailureListener { Toast.makeText(view.context, "There was an error :(", Toast.LENGTH_SHORT).show() }
+                        Toast.makeText(
+                            view.context,
+                            "${favMovie.movieTitle} deleted from  favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        dialog.cancel()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            view.context,
+                            "There was an error :(",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
             builder.setNegativeButton(android.R.string.no) { dialog, which ->
                 dialog.cancel()
             }
             builder.show()
+        }
+    }
+
+
+    override fun parseJson(datos: Bundle) {
+        val movieList = ArrayList<Movie>()
+        val jsonData = JSONObject(datos.getString(JSON))
+        val movie = Movie(
+            false,
+            jsonData.getString("backdrop_path"),
+            listOf(1, 2, 3),
+            jsonData.getInt("id"),
+            jsonData.getString("original_language"),
+            jsonData.getString("original_title"),
+            jsonData.getString("overview"),
+            jsonData.getDouble("popularity"),
+            jsonData.getString("poster_path"),
+            jsonData.getString("release_date"),
+            jsonData.getString("title"),
+            false,
+            jsonData.getDouble("vote_average"),
+            jsonData.getInt("vote_count")
+        )
+        val x = movie?.backdrop_path
+        val y = movie?.poster_path
+        if (x != null || y != null) {
+            movie?.backdrop_path = "https://image.tmdb.org/t/p/w500/$y"
+            movie.poster_path = "https://image.tmdb.org/t/p/original/$x"
+            movieList.add(movie!!)
+        }
+
+        if (movie != null) {
+            val view=viewToShow!!
+            Toast.makeText(view.context, " ${movie.title}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(view.context, Activity_MovieDetails::class.java)
+            intent.putExtra(MOVIE_TRANSFER, movie)
+            intent.putExtra(USERNAME, logInModel.user.value)
+            intent.putExtra(IS_LOGED, logInModel.flag.value)
+            view.context.startActivity(intent)
         }
     }
 }//End Of Class

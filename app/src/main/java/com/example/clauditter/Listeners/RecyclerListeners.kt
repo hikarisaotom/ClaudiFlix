@@ -81,7 +81,6 @@ class RecyclerScrollListener(val previewAdapter:MoviePreviewAdapter):RecyclerVie
     }
 
     override fun parseJson(datos:Bundle) {
-        var listMoviesFull = ArrayList<Movie>()
         val movieList = ArrayList<Movie>()
         val jsonData = JSONObject(datos.getString(JSON))
         val itemArray = jsonData.getJSONArray("results")
