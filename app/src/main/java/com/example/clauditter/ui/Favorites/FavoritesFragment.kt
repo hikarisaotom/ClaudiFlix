@@ -27,7 +27,6 @@ import com.example.clauditter.ui.clases.Movie
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment__trailers.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import org.json.JSONObject
 
@@ -59,13 +58,21 @@ class FavoritesFragment : Fragment(),
                 //    }
             } else {
                 lbl_warningFavorites.visibility = View.VISIBLE
+                val films = 0x1F39E
+                val movie = 0x1F3A5
+                val emoji = String(Character.toChars(films))
+                val emoji2 = String(Character.toChars(movie))
+                lbl_warningFavorites.text= getString(R.string.LoginTosee)+" $emoji $emoji2"
+
                 recycler_favorites.visibility = View.GONE
                 lbl_favoritesMessage.visibility = View.GONE
             }
         })
 
         logInModel.user.observe(viewLifecycleOwner, Observer {
-            lbl_favoritesMessage.text = "$it´ s Favorites List"
+            val films = 0x1F39E
+            val emoji = String(Character.toChars(films))
+            lbl_favoritesMessage.text = "$it´ s Favorites List $emoji"
             // getFavorites() //new user, new favorites, this is not necessary anymore because the if above is comented
         })
 
@@ -203,5 +210,6 @@ class FavoritesFragment : Fragment(),
             intent.putExtra(IS_LOGED, logInModel.flag.value)
             view.context.startActivity(intent)
         }
+
     }
 }//End Of Class

@@ -38,12 +38,20 @@ class LogInFragment : Fragment() {
             var flagLogin = 0;
             var flagLogout = 0
             if (it) {
+                val verySad = 0x1F622
+                val emoji = String(Character.toChars(verySad))
+                lbl_goodbye.text="Wanna go? $emoji"
+
+                img_logout.visibility= View.VISIBLE
                 flagLogout = View.VISIBLE
                 flagLogin = View.GONE
+                img_logout.setImageResource(R.mipmap.leaving)
             } else {
                 flagLogout = View.GONE
                 flagLogin = View.VISIBLE
+                img_logout.visibility= View.GONE
             }
+
             progressB_login.visibility = View.GONE
             btn_logOut.visibility = flagLogout
             lbl_goodbye.visibility = flagLogout
@@ -140,7 +148,7 @@ class LogInFragment : Fragment() {
         return toReturn
     }
 
-    fun showSnackbar(title: String,message:String, option: String, url:String) {
+    fun showSnackbar(title: String,message:String, option: String, url:String?) {
         progressB_login.visibility = View.GONE
 
         val snackbar = Snackbar.make(btnView!!, "", Snackbar.LENGTH_SHORT)
@@ -151,7 +159,11 @@ class LogInFragment : Fragment() {
         val snackView: View = layoutInflater.inflate(R.layout.snackbar, null)
 
         val imageView: ImageView = snackView.findViewById<View>(R.id.img_snack) as ImageView
-        Glide.with(activity?.applicationContext!!).load(url).into(imageView)
+       if(url !=null) {
+           Glide.with(activity?.applicationContext!!).load(url).into(imageView)
+       }else{
+           imageView.setImageResource(R.mipmap.happy)
+       }
         val lbltitle = snackView.findViewById<View>(R.id.lbl_snack) as TextView
         val lblmesage = snackView.findViewById<View>(R.id.lbl_snack2) as TextView
         lbltitle.setText(title)
@@ -167,33 +179,9 @@ class LogInFragment : Fragment() {
             snackbar.dismiss()
         }
         layout.addView(snackView, 0)
+
        snackbar.show()
-
-/* snackbar.setAction(option) {
-            txtPassword_logIn.setText("")
-            txtPassword_logIn.clearFocus()
-            txtUsername_logIn.setText("")
-            txtUsername_logIn.clearFocus()
-        }*/
-        /* SIMPLE
-    Snackbar.make(btnView!!,
-         title, Snackbar.LENGTH_LONG)
-         .setAction(option) {
-             txtPassword_logIn.setText("")
-             txtPassword_logIn.clearFocus()
-             txtUsername_logIn.setText("")
-             txtUsername_logIn.clearFocus()
-         }.show()*/
-
-        /*Con icono
-        val snackbar: Snackbar = Snackbar.make(btnView!!, R.string.app_name, Snackbar.LENGTH_LONG)
-         val snackbarLayout = snackbar.view
-         val textView =
-             snackbarLayout.findViewById<View>(R.id.snackbar_text) as TextView
-         textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_share, 0, 0, 0)
-         textView.compoundDrawablePadding =
-             resources.getDimensionPixelOffset(R.dimen.fab_margin)
-         snackbar.show()*/
+        snackbar.view.setBackgroundColor(Color.WHITE)
     }
 
     private fun validateAccess() {
@@ -266,7 +254,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun failedLogIn() {
-        val url="https://www.pngrepo.com/png/209049/512/suspicious-emoji.png"
+        val url="https://img.pngio.com/arrest-crime-criminal-justice-prison-punishment-suspect-icon-suspect-png-512_512.png"
         showSnackbar("Something is wrong....","Please check your data", "Try Again",url)
         //Toast.makeText(activity, "Please check your data", Toast.LENGTH_LONG).show()
         logInModel.setFlag(false)
@@ -274,8 +262,8 @@ class LogInFragment : Fragment() {
     }
 
     private fun successLogIn() {
-        val url="https://pngimg.com/uploads/welcome/welcome_PNG108.png"
-        showSnackbar("Welcome Back!","Welcome ${txtUsername_logIn.text.toString()}", "Continue",url)
+       // val url="https://png.pngtree.com/png-vector/20200116/ourmid/pngtree-man-with-happy-face-concept-for-expression-character-flat-style-vector-png-image_2129312.jpg"
+        showSnackbar("Welcome Back!","Welcome ${txtUsername_logIn.text.toString()}", "Continue",null)
 
         //Toast.makeText(activity, "Welcome ${txtUsername_logIn.text.toString()}", Toast.LENGTH_LONG).show()
         logInModel.setFlag(true)

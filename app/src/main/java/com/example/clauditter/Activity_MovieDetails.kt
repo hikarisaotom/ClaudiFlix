@@ -2,13 +2,11 @@ package com.example.clauditter
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.clauditter.adapters.IS_LOGED
@@ -30,8 +28,6 @@ class Activity_MovieDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_description)
-
-
         //Obteniendo valores pasados desde el fragment Home
         movie = intent.getParcelableExtra<Movie>(MOVIE_TRANSFER) as Movie
         dataModel.setMovie(movie)
@@ -43,8 +39,13 @@ class Activity_MovieDetails : AppCompatActivity() {
             .into(img_vistaPelicula)
         //To implemet tabLayout
         viewpager = findViewById(R.id.viewPagerDetails)
-        tabLayout_Categories.setupWithViewPager(viewpager);
-      //  tabLayout_Categories.getTabAt(0)?.select()
+
+
+        tabLayout_Categories.post(Runnable { tabLayout_Categories.setupWithViewPager(viewpager)
+            tabLayout_Categories.getTabAt(0)?.setIcon(R.mipmap.information)
+            tabLayout_Categories.getTabAt(1)?.setIcon(R.mipmap.cast)
+            tabLayout_Categories.getTabAt(2)?.setIcon(R.mipmap.review)
+            tabLayout_Categories.getTabAt(3)?.setIcon(R.drawable.ic_menu_slideshow)})
 
         //agregando controlador al viewpager
         val pagerAdapter = PagerAdapter(supportFragmentManager, movie)

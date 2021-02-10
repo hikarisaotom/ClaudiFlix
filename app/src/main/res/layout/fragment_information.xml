@@ -40,6 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Language"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/lbl_icon_puntuation"
         app:layout_constraintTop_toBottomOf="@+id/lbl_puntuation" />
 
@@ -51,6 +53,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_lenguage" />
@@ -69,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -77,6 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -85,6 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -93,6 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -103,6 +111,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,6 +126,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Duration:"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_movie_title" />
 
@@ -123,6 +137,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Release:"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/lbl_icon_duration"
         app:layout_constraintTop_toBottomOf="@+id/lbl_duration" />
 
@@ -132,6 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Puntution"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/lbl_icon_relese"
         app:layout_constraintTop_toBottomOf="@+id/lbl_release" />
 

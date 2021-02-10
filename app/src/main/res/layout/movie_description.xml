@@ -64,8 +64,8 @@
         android:layout_height="32dp"
         android:layout_marginTop="4dp"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/btn_addRemoveFavorite"
-        app:layout_constraintStart_toStartOf="@+id/btn_addRemoveFavorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_addRemoveFavorite"
         app:tabSelectedTextColor="@color/teal_700">
 
@@ -74,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-            android:icon="@mipmap/information"
             android:text="info"
             android:visibility="visible" />
 
