@@ -150,41 +150,6 @@ class LogInFragment : Fragment() {
         return toReturn
     }
 
-    fun showSnackbar(title: String,message:String, option: String, url:String?) {
-        progressB_login.visibility = View.GONE
-
-        val snackbar = Snackbar.make(btnView!!, "", Snackbar.LENGTH_SHORT)
-        val layout = snackbar.view as SnackbarLayout
-        val textView=layout.findViewById<View>(R.id.snackbar_text) as TextView
-        textView.visibility = View.INVISIBLE
-
-        val snackView: View = layoutInflater.inflate(R.layout.snackbar, null)
-
-        val imageView: ImageView = snackView.findViewById<View>(R.id.img_snack) as ImageView
-       if(url !=null) {
-           Glide.with(activity?.applicationContext!!).load(url).into(imageView)
-       }else{
-           imageView.setImageResource(R.mipmap.happy)
-       }
-        val lbltitle = snackView.findViewById<View>(R.id.lbl_snack) as TextView
-        val lblmesage = snackView.findViewById<View>(R.id.lbl_snack2) as TextView
-        lbltitle.setText(title)
-        lblmesage.setText(message)
-
-        val btn_snack:Button= snackView.findViewById<View>(R.id.btn_snack) as Button
-        btn_snack.text=option
-        btn_snack.setOnClickListener {
-            txtPassword_logIn.setText("")
-            txtPassword_logIn.clearFocus()
-            txtUsername_logIn.setText("")
-            txtUsername_logIn.clearFocus()
-            snackbar.dismiss()
-        }
-        layout.addView(snackView, 0)
-
-       snackbar.show()
-        snackbar.view.setBackgroundColor(Color.WHITE)
-    }
 
     private fun validateAccess() {
 
@@ -298,5 +263,41 @@ class LogInFragment : Fragment() {
         logInModel.loadFavoriteList(ArrayList())
     }
 
+
+    fun showSnackbar(title: String,message:String, option: String, url:String?) {
+        progressB_login.visibility = View.GONE
+
+        val snackbar = Snackbar.make(btnView!!, "", Snackbar.LENGTH_SHORT)
+        val layout = snackbar.view as SnackbarLayout
+        val textView=layout.findViewById<View>(R.id.snackbar_text) as TextView
+        textView.visibility = View.INVISIBLE
+
+        val snackView: View = layoutInflater.inflate(R.layout.snackbar, null)
+
+        val imageView: ImageView = snackView.findViewById<View>(R.id.img_snack) as ImageView
+        if(url !=null) {
+            Glide.with(activity?.applicationContext!!).load(url).into(imageView)
+        }else{
+            imageView.setImageResource(R.mipmap.happy)
+        }
+        val lbltitle = snackView.findViewById<View>(R.id.lbl_snack) as TextView
+        val lblmesage = snackView.findViewById<View>(R.id.lbl_snack2) as TextView
+        lbltitle.setText(title)
+        lblmesage.setText(message)
+
+        val btn_snack:Button= snackView.findViewById<View>(R.id.btn_snack) as Button
+        btn_snack.text=option
+        btn_snack.setOnClickListener {
+            txtPassword_logIn.setText("")
+            txtPassword_logIn.clearFocus()
+            txtUsername_logIn.setText("")
+            txtUsername_logIn.clearFocus()
+            snackbar.dismiss()
+        }
+        layout.addView(snackView, 0)
+
+        snackbar.show()
+        snackbar.view.setBackgroundColor(Color.WHITE)
+    }
 
 }

@@ -38,10 +38,18 @@ class Activity_YoutubeTrailers : YouTubeBaseActivity(),YouTubePlayer.OnInitializ
         youtubePlayer: YouTubePlayer?,
         wasRestored: Boolean
     ) {
+        /*
         if(!wasRestored){
             youtubePlayer?.cueVideo(videoKey)
+        }*/
+        youtubePlayer?.setPlayerStateChangeListener(playerStateChangeListener)
+        youtubePlayer?.setPlaybackEventListener(playbackEventListener)
+        if(!wasRestored){
+            youtubePlayer?.loadVideo(videoKey) //reproducimos el video
+        }else{
+            youtubePlayer?.play()
         }
-       Toast.makeText(this,"Video loaded successfully",Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onInitializationFailure(
@@ -51,4 +59,26 @@ class Activity_YoutubeTrailers : YouTubeBaseActivity(),YouTubePlayer.OnInitializ
         Toast.makeText(this,"there has been and error loading the video ;(",Toast.LENGTH_SHORT).show()
 
     }
+
+
+
+    //__________________________EVENT LISTENER________________________________
+    private val playbackEventListener= object : YouTubePlayer.PlaybackEventListener{
+        override fun onSeekTo(p0: Int) {}
+        override fun onBuffering(p0: Boolean) {}
+        override fun onPlaying() {}
+        override fun onStopped() {}
+        override fun onPaused() {}
+    }
+
+    //__________________________STATE CHANGE LISTENER________________________________
+    private val playerStateChangeListener= object : YouTubePlayer.PlayerStateChangeListener{
+        override fun onAdStarted() {}
+        override fun onLoading() {}
+        override fun onVideoStarted() {}
+        override fun onLoaded(p0: String?) {}
+        override fun onVideoEnded() {}
+        override fun onError(p0: YouTubePlayer.ErrorReason?) {}
+    }
+
 }

@@ -18,6 +18,7 @@ import com.example.clauditter.adapters.TrailerAdapter
 import com.example.clauditter.ui.clases.Trailer
 import com.example.clauditter.ui.home.JSON
 import com.example.clauditter.ui.home.URL_DOWNLOAD
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import com.google.gson.Gson
 import org.json.JSONObject
 import kotlinx.android.synthetic.main.fragment__trailers.*
@@ -123,7 +124,13 @@ OnDownloadComplete{
         if (trailer != null) {
             if (trailer.name != null&&trailer.id!=null) {
                 Toast.makeText(view.context, " ${trailer.name}", Toast.LENGTH_SHORT).show()
+                /*
                 val intent = Intent(view.context, Activity_YoutubeTrailers::class.java)
+                intent.putExtra(TRAILER_KEY, trailer.key)*/
+
+                val intent= YouTubeStandalonePlayer.createVideoIntent(
+                    activity,getString(R.string.yt_api_key),  trailer.key, 0, true, false
+                )
                 intent.putExtra(TRAILER_KEY, trailer.key)
                 view.context.startActivity(intent)
             }else{
