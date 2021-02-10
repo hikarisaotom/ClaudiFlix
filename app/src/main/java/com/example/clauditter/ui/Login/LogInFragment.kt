@@ -70,12 +70,14 @@ class LogInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnLogIn.setOnClickListener(View.OnClickListener {
+            btnView = it
             hideKeyBoard()
             validateAccess()
             progressB_login.visibility = View.VISIBLE
-            btnView = it
         })
-        btn_logOut.setOnClickListener(View.OnClickListener { closeSession() })
+        btn_logOut.setOnClickListener(View.OnClickListener {
+            btnView = it
+            closeSession() })
     }//fin de metodo
 
 
