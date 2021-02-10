@@ -72,7 +72,7 @@ OnDownloadComplete{
                             "There are no trailers  for this movie "
 
                 }else{
-                    lbl_trailers.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.cast, 0, 0, 0)
+                    lbl_trailers.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_menu_slideshow, 0, 0, 0)
                     recycler_Trailers.visibility=View.VISIBLE
                 }
             }else{

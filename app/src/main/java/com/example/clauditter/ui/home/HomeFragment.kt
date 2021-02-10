@@ -93,14 +93,16 @@ class HomeFragment : Fragment(),OnDownloadComplete{
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             )
             channel.description = CHANNEL_DESCRIPTION
+
             val manager =
                 requireActivity().applicationContext.getSystemService(
                     NotificationManager::class.java
                 )
             manager.createNotificationChannel(channel)
+
         }
 
         // randomly recommendation of a movie

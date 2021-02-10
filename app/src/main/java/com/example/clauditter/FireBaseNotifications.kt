@@ -6,7 +6,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.transition.Transition
 import androidx.core.app.NotificationCompat
@@ -77,7 +79,10 @@ var image:Bitmap?=null
                             .setContentTitle("Today`s Movie for you $user")
                             .setContentText("Movie: ${movieToShow.title}")
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setSmallIcon(R.mipmap.cast)
+                            .setSmallIcon(R.mipmap.happy)
+                            .setBadgeIconType(NotificationCompat.BADGE_ICON_LARGE)
+                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                                R.mipmap.ic_channel))
                             .setContentIntent(pendingIntent)
                             .setStyle(
                                 NotificationCompat.BigPictureStyle()
