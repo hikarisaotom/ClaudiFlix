@@ -63,18 +63,21 @@ class RecyclerScrollListener(val previewAdapter:MoviePreviewAdapter):RecyclerVie
             visibleItemCount = recyclerView?.layoutManager!!.childCount
             totalItemCount = recyclerView?.layoutManager!!.itemCount
             pastVisiblesItems = (recyclerView.layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
-            if (loading) {
-                if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
-                    loading = false
-                    loading = true
-                    val funciones=MainActivity()
-                    val pathSegment=funciones.createUrl("movie/${previewAdapter.tag}",page.toString())
-                    Toast.makeText(recyclerView.context,"Downloading page $page",Toast.LENGTH_SHORT).show()
-                    var datos=Bundle()
-                    datos.putString(URL_DOWNLOAD,pathSegment)
-                    funciones.downloadData(datos,this)
-                    page += 1
+            if(page<=20){
+                if (loading) {
+                    if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                        loading = false
+                        val funciones=MainActivity()
+                        val pathSegment=funciones.createUrl("movie/${previewAdapter.tag}",page.toString())
+                        Toast.makeText(recyclerView.context,"Downloading page $page",Toast.LENGTH_SHORT).show()
+                        var datos=Bundle()
+                        datos.putString(URL_DOWNLOAD,pathSegment)
+                        funciones.downloadData(datos,this)
+                        loading = true
+                        page += 1
+                    }
                 }
+
             }
         }
 

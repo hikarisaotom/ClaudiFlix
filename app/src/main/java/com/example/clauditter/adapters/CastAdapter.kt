@@ -59,7 +59,7 @@ class CastAdapter(private var cast:List<Person>):
                 .load(actor.profile_path) //3
                 .into(holder.thumbnail) //8
             holder.actorName.text=actor.name
-            holder.rol.text="interpretates"
+            holder.rol.text="is"
             holder.character.text=actor.character
 
         }

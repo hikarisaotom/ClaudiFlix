@@ -82,6 +82,7 @@ class MainActivity : BaseActivity() {
                     var rawData: String = response.body!!.string()
                     runOnUiThread {
                         datos.putString(JSON, rawData)
+                        Log.d("_______datos dej JSON","$rawData")
                         listener.parseJson(datos)
                     }
                 }

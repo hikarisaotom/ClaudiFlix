@@ -48,23 +48,25 @@ class FavoritesFragment : Fragment(),
         //show/hide elements if the user is logged in
         logInModel.flag.observe(viewLifecycleOwner, Observer {
             if (it) {
+                progressB_favorites.visibility=View.VISIBLE
                 lbl_warningFavorites.visibility = View.GONE
-                recycler_favorites.visibility = View.VISIBLE
+               // recycler_favorites.visibility = View.VISIBLE
                 lbl_favoritesMessage.visibility = View.VISIBLE
+                recycler_favorites.visibility= View.GONE
                 // if (logInModel.favoriteListIsLoaded()) {//downloading new data,
                 /*This is commented because if not, the list wouldn`t be always updated*/
-                Toast.makeText(activity, "downloading new data", Toast.LENGTH_LONG).show()
+               // Toast.makeText(activity, "downloading new data", Toast.LENGTH_LONG).show()
                 getFavorites()
                 //    }
             } else {
                 lbl_warningFavorites.visibility = View.VISIBLE
+                progressB_favorites.visibility=View.GONE
                 val films = 0x1F39E
                 val movie = 0x1F3A5
                 val emoji = String(Character.toChars(films))
                 val emoji2 = String(Character.toChars(movie))
                 lbl_warningFavorites.text= getString(R.string.LoginTosee)+" $emoji $emoji2"
-
-                recycler_favorites.visibility = View.GONE
+                recycler_favorites.visibility= View.GONE
                 lbl_favoritesMessage.visibility = View.GONE
             }
         })
@@ -78,7 +80,12 @@ class FavoritesFragment : Fragment(),
 
 
         logInModel.favoritesList.observe(viewLifecycleOwner, Observer {
+            progressB_favorites.visibility=View.GONE
+            if(it.size>0){
+                recycler_favorites.visibility=View.VISIBLE
+            }
             favoritesAdapter.loadNewData(it)
+
         })
         return root
     }
@@ -108,9 +115,12 @@ class FavoritesFragment : Fragment(),
                 }
                 val documents = snapshots?.documents
                 if (documents == null || documents.size <= 0) {
-                    recycler_favorites.visibility = View.GONE
-                    lbl_warningFavorites.visibility = View.VISIBLE
-                    lbl_warningFavorites.text = "You don`t have any movie added yet"
+                   if(recycler_favorites!=null){
+                       recycler_favorites.visibility = View.GONE
+                       lbl_warningFavorites.visibility = View.VISIBLE
+                       lbl_warningFavorites.text = "You don`t have any movie added yet"
+                       progressB_favorites.visibility=View.GONE
+                   }
                 } else {
                     val favorites = ArrayList<Favorite>()
                     documents?.forEach { document ->
@@ -124,6 +134,7 @@ class FavoritesFragment : Fragment(),
                         )
                     }
                     logInModel.loadFavoriteList(favorites)
+
                     //favoritesAdapter.loadNewData(favorites)
                 }
             }
